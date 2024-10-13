@@ -27,7 +27,7 @@ app.use(cors({
 // Routes
 app.use(express.json());
 app.use(cookieParser());
-app.use("/alive", async (req, res) => {
+app.use("/api/alive", async (req, res) => {
   res.json({ message: "Server is alive" });
 });
 app.use("/api/auth", authRoutes);
