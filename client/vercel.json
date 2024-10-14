@@ -1,5 +1,13 @@
 {
-    "routes": [
+  "version": 2,
+  "builds": [
+    {
+      "src": "index.html",
+      "use": "@vercel/static-build",
+      "config": { "distDir": "dist" }
+    }
+  ],
+  "routes": [
     {
       "src": "/api/(.*)",
       "dest": "https://https://tiha-be-trendy-server.vercel.app/api/$1"
