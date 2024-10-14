@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import {
   ChartNoAxesCombined,
@@ -6,8 +6,15 @@ import {
   ShoppingBasket,
   ShoppingCart,
   BadgeDollarSign,
-  Truck
+  Truck,
+  ChevronDown,
 } from "lucide-react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import {
   Sheet,
   SheetContent,
@@ -22,6 +29,23 @@ const adminSidebarMenuItems = [
     label: "Dashboard",
     path: "/admin/dashboard",
     icon: <LayoutDashboard size={20} />,
+    submenu: [
+      {
+        id: "analytics",
+        label: "Analytics",
+        path: "/admin/dashboard/analytics",
+      },
+      {
+        id: "users",
+        label: "Users",
+        path: "/admin/dashboard/users",
+      },
+      {
+        id: "summary",
+        label: "Summary",
+        path: "/admin/dashboard/summary",
+      },
+    ],
   },
   {
     id: "products",
@@ -50,21 +74,56 @@ const adminSidebarMenuItems = [
 ];
 
 function MenuItem({ setOpenSidebar }) {
+  const [openMenu, setOpenMenu] = useState(null);
   const location = useLocation();
+
+  const handleMenuClick = (itemId) => {
+    setOpenMenu(openMenu === itemId ? null : itemId);
+  };
+
   return (
     <nav className="mt-8 flex flex-col gap-2">
       {adminSidebarMenuItems.map((item) => (
-        <Link
-        to={item.path}
-          key={item.id}
-          className={`flex items-center gap-2 rounded-md px-3 py-2 font-semibold text-gray-500 hover:text-black cursor-pointer hover:bg-gray-100 ${location.pathname.includes(item.path) ? "bg-gray-100" : ""}`}
-          onClick={() => {
-            setOpenSidebar ? setOpenSidebar(false) : null;
-          }}
-        >
-          {item.icon}
-          <span>{item.label}</span>
-        </Link>
+        <div key={item.id} className="flex flex-col">
+          <Link
+            to={item.path}
+            className={`flex items-center justify-between gap-2 rounded-md px-3 py-2 font-semibold text-gray-500 hover:text-black cursor-pointer hover:bg-gray-100 ${
+              location.pathname.includes(item.path) ? "bg-gray-100" : ""
+            }`}
+            onClick={() => {
+              handleMenuClick(item.id);
+              setOpenSidebar && setOpenSidebar(false);
+            }}
+          >
+            <p className="flex items-center gap-2">
+              {item.icon}
+              <span>{item.label}</span>
+            </p>
+            {item.submenu && <ChevronDown className={`${openMenu ? 'rotate-180' : ''} transition-all duration-300`} size={20} />}
+          </Link>
+          {item.submenu && openMenu === item.id && (
+            <div className={`expandable ${
+              openMenu === item.id ? "show" : ""
+            } ml-6 mt-2 flex flex-col gap-2`}>
+              {item.submenu.map((subItem) => (
+                <Link
+                  to={subItem.path}
+                  key={subItem.id}
+                  className={`flex items-center gap-2 rounded-md px-3 py-2 text-gray-400 hover:text-gray-600 cursor-pointer hover:bg-gray-100 ${
+                    location.pathname.includes(subItem.path)
+                      ? "bg-gray-100"
+                      : ""
+                  }`}
+                  onClick={() => {
+                    setOpenSidebar ? setOpenSidebar(false) : null;
+                  }}
+                >
+                  <span>{subItem.label}</span>
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
       ))}
     </nav>
   );
