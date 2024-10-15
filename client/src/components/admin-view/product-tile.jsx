@@ -10,31 +10,30 @@ const AdminProductTile = ({
   setIsDialogOpen,
 }) => {
   return (
-    <Card className="w-72 overflow-hidden h-[400px] shadow-md hover:-mt-4 transition-all ease duration-300">
-      <div>
+    <Card className="w-80 overflow-hidden sm:h-[400px] h-96 shadow-md sm:hover:-mt-4 transition-all ease duration-300 relative">
         <div className="relative w-full h-[200px] overflow-hidden">
           <img
             src={product?.image}
             alt={product?.title}
-            className="w-full h-full object-cover rounded-t-lg hover:scale-105 transition-transform duration-300"
+            className="w-full h-full object-cover rounded-t-lg"
           />
         </div>
-        <CardContent className="space-y-1 mt-2 pb-4">
-          <div className="flex justify-between items-center text-lg font-semibold">
+        <CardContent className="space-y-1 mt-2">
+          <div className="flex justify-between items-center text-base sm:text-lg font-semibold">
             <h2>{product?.title}</h2>
             <h2>{product?.productId}</h2>
           </div>
-          <div className="flex justify-between items-center">
+          <div className="flex sm:text-base text-sm justify-between items-center">
             <span>Category : {product?.category}</span>
             <span>Stock : {product?.stock}</span>
           </div>
-          <div className="flex justify-between items-center  text-primary">
+          <div className="flex justify-between items-center sm:text-base text-sm">
             <span>Price : ${product?.price}</span>
-            <span>Purchase Price : ${product?.purchasePrice}</span>
+            <span>P. Price : ${product?.purchasePrice}</span>
           </div>
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between sm:text-base text-sm">
             <span>
-              Purchase Date :{" "}
+              P. Date :{" "}
               {new Date(product?.date).toLocaleDateString("en-GB", {
                 day: "numeric",
                 month: "short",
@@ -43,7 +42,7 @@ const AdminProductTile = ({
             </span>
           </div>
         </CardContent>
-        <CardFooter className="flex justify-between items-center">
+        <CardFooter className="flex justify-between items-center absolute bottom-0 w-full">
           <Button
             onClick={() => {
               setFormData(product);
@@ -55,7 +54,6 @@ const AdminProductTile = ({
           </Button>
           <Button onClick={() => handleDelete(product._id)}>Delete</Button>
         </CardFooter>
-      </div>
     </Card>
   );
 };

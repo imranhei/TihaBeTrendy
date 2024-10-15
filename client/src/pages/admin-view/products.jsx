@@ -19,6 +19,8 @@ import { useToast } from "../../hooks/use-toast";
 import ProductImageUpload from "@/components/admin-view/image-upload";
 import CommonForm from "@/components/common/form";
 import AdminProductTile from "@/components/admin-view/product-tile";
+import { CirclePlus, LayoutGrid, LayoutList } from "lucide-react";
+import AdminProductList from "@/components/admin-view/product-list";
 
 const initialFormData = {
   image: null,
@@ -39,6 +41,7 @@ const AdminProducts = () => {
   const [imageLoadingState, setImageLoadingState] = useState(false);
   const [currentEditedId, setCurrentEditedId] = useState(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [view, setView] = useState("card");
   const dispatch = useDispatch();
   const { productList } = useSelector((state) => state.adminProducts);
   const { toast } = useToast();
@@ -100,20 +103,31 @@ const AdminProducts = () => {
   }, [dispatch]);
 
   return (
-    <div className="flex flex-col space-y-6">
-      <Button
-        className="underline-effect overflow-hidden hover:bg-white rounded-sm hover:text-violet-700 shadow-md shadow-violet-300 w-40"
-        onClick={() => {
-          setFormData(initialFormData);
-          setIsDialogOpen(true);
-        }}
-      >
-        Add New Product
-      </Button>
+    <div className="flex flex-col space-y-6 flex-1">
+      <div className="flex sm:gap-4 gap-2 justify-end">
+        <Button className="p-3 sm:p-4 shadow-md" onClick={() => setView("card")}>
+          <LayoutGrid size={20} />
+          <p className="sm:ml-2 sm:block hidden">Card View</p>
+        </Button>
+        <Button className="p-3 sm:p-4 shadow-md" onClick={() => setView("list")}>
+          <LayoutList size={20} />
+          <p className="sm:ml-2 sm:block hidden">List View</p>
+        </Button>
+        <Button
+          className="sm:underline-effect overflow-hidden sm:hover:bg-white sm:rounded-sm sm:hover:text-violet-700 shadow-md sm:shadow-violet-300 w-fit p-3 sm:p-4"
+          onClick={() => {
+            setFormData(initialFormData);
+            setIsDialogOpen(true);
+          }}
+        >
+          <CirclePlus size={20} />{" "}
+          <p className="sm:ml-2 sm:block hidden">Add New Product</p>
+        </Button>
+      </div>
 
       {/* Display product tiles */}
       <div className="flex flex-wrap justify-center gap-6">
-        {productList && productList.length > 0
+        {productList && productList.length > 0 && view === "card"
           ? productList.map((product) => (
               <AdminProductTile
                 key={product._id}
@@ -124,7 +138,19 @@ const AdminProducts = () => {
                 setIsDialogOpen={setIsDialogOpen}
               />
             ))
-          : null}
+          : productList && productList.length > 0 && view === "list"
+          ? <AdminProductList
+              productList={productList}
+              setCurrentEditedId={setCurrentEditedId}
+              setFormData={setFormData}
+              handleDelete={handleDelete}
+              setIsDialogOpen={setIsDialogOpen}
+            />
+           : (
+              <div className="flex justify-center items-center w-full h-96">
+                <p className="text-xl font-semibold">No Products Found</p>
+              </div>
+            )}
       </div>
 
       <Dialog

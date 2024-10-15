@@ -19,6 +19,7 @@ import {
 import { useToast } from "../../hooks/use-toast";
 import CommonForm from "@/components/common/form";
 import AdminOrderTable from "@/components/admin-view/order-table";
+import { CirclePlus } from "lucide-react";
 
 const initialFormData = {
   productId: "",
@@ -88,13 +89,14 @@ const AdminOrders = () => {
   return (
     <div className="flex flex-col space-y-6 flex-1">
       <Button
-        className="underline-effect overflow-hidden hover:bg-white rounded-sm hover:text-violet-700 shadow-md shadow-violet-300 w-40"
+        className="underline-effect overflow-hidden hover:bg-white rounded-sm hover:text-violet-700 shadow-md shadow-violet-300 w-fit p-3 sm:p-4"
         onClick={() => {
           setFormData(initialFormData);
           setIsDialogOpen(true);
         }}
       >
-        Add New Order
+        <CirclePlus size={20} />{" "}
+        <p className="sm:ml-2 sm:block hidden">Add New Product</p>
       </Button>
 
       <AdminOrderTable 

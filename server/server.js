@@ -7,6 +7,8 @@ const authRoutes = require("./routes/auth/auth-routes");
 const productRoutes = require("./routes/admin/product-routes");
 const orderRoutes = require("./routes/admin/order-routes");
 
+const userProductRoutes = require("./routes/user/product-routes");
+
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -33,6 +35,8 @@ app.use("/api/alive", async (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/admin/product", productRoutes);
 app.use("/api/admin/order", orderRoutes);
+
+app.use("/api/user/product", userProductRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

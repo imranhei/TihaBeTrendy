@@ -32,7 +32,7 @@ const AdminOrderTable = ({
   const [deleteId, setDeleteId] = useState(null);
 
   return (
-    <div>
+    <div className="bg-white flex-1 sm:p-6 p-4 shadow-md rounded-md">
       <Table>
         <TableHeader>
           <TableRow className="p-0 text-nowrap">
@@ -97,13 +97,13 @@ const AdminOrderTable = ({
               Are you sure you want to delete this order?
             </DialogDescription>
           </DialogHeader>
-          <DialogFooter className="flex justify-center gap-6">
-            <DialogClose asChild>
+          <DialogFooter className="flex flex-row flex-wrap justify-center sm:gap-6 gap-4">
+            <DialogClose asChild className="sm:w-32 w-24">
               <Button type="button" variant="secondary">
                 Close
               </Button>
             </DialogClose>
-            <Button onClick={() => handleDelete(deleteId)} type="button" variant="destructive">
+            <Button className="sm:w-32 w-24" onClick={() => handleDelete(deleteId)} type="button" variant="destructive">
               Delete
             </Button>
           </DialogFooter>
