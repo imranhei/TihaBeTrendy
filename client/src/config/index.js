@@ -189,6 +189,7 @@ export const categoryOptionsMap = {
   hairbow: "Hair Bow",
   headband: "Headband",
   socks: "Socks",
+  others: "Others",
 };
 
 // export const brandOptionsMap = {
@@ -211,6 +212,7 @@ export const filterOptions = {
     { id: "hairbow", label: "Hair Bow" },
     { id: "headband", label: "Headband" },
     { id: "socks", label: "Socks" },
+    { id: "others", label: "Others" },
   ],
   // brand: [
   //   { id: "nike", label: "Nike" },

@@ -1,6 +1,6 @@
 import { Separator } from "@radix-ui/react-select";
 import { Outlet } from "react-router-dom";
-import { House } from "lucide-react";
+import { ArrowLeft, House } from "lucide-react";
 import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
 
@@ -17,7 +17,10 @@ const AuthLayout = () => {
           <Link to='/shop/home'><Button variant="link" className="text-background"><House className="h-4 w-4 mx-auto mr-2" />Shop</Button></Link>
         </div>
       </div>
-      <div className="flex flex-1 items-center justify-center bg-background px-4 py-12 sm:px-6 lg:px-8">
+      <div className="flex flex-1 items-center justify-center bg-background px-4 py-12 sm:px-6 lg:px-8 relative">
+      <div className="absolute top-4 left-2 lg:hidden block">
+      <Link to='/shop/home' className="flex items-center"><ArrowLeft size={20} />&nbsp;Home</Link>
+      </div>
         <Outlet />
       </div>
     </div>

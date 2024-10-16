@@ -8,9 +8,15 @@ const initialState = {
 
 export const fetchAllProducts = createAsyncThunk(
   "product/fetchAllProducts",
-  async () => {
+  async ({ filterParams, sortParams }) => {
+    
+    const query = new URLSearchParams({
+      category: filterParams.join(","),
+      sortBy: sortParams,
+    });
+
     const response = await axios.get(
-      `${import.meta.env.VITE_API_URL}/api/user/product/get-all-products`
+      `${import.meta.env.VITE_API_URL}/api/user/product/get-all-products?${query}`
     );
     return response.data;
   }

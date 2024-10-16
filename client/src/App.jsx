@@ -46,7 +46,7 @@ function App() {
   }
 
   return (
-    <div className="flex flex-col overflow-hidden">
+    <div className="flex flex-col overflow-hidden bg-muted">
       {/* header commponent */}
       <Routes>
         {/* Root path redirection to /shop/home */}

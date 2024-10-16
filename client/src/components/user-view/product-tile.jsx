@@ -5,8 +5,8 @@ import { ShoppingCart } from 'lucide-react';
 
 const UserProductTile = ({ product }) => {
   return (
-    <Card className="w-72 overflow-hidden sm:h-[370px] shadow-md sm:hover:-mt-4 transition-all ease duration-300 relative">
-        <div className="relative w-full h-[200px] overflow-hidden">
+    <Card className="w-72 overflow-hidden sm:h-[370px] h-80 shadow-md sm:hover:-mt-4 transition-all ease duration-300 relative">
+        <div className="relative w-full sm:h-[200px] h-44 overflow-hidden">
           <img
             src={product?.image}
             alt={product?.title}
@@ -27,7 +27,7 @@ const UserProductTile = ({ product }) => {
           </div>
         </CardContent>
         <CardFooter className="flex justify-center items-center absolute bottom-0 w-full">
-          <Button
+          <Button  className='cursor-not-allowed'
           >
             <ShoppingCart size={20} className='mr-2' /> Add to cart
           </Button>
