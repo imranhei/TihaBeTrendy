@@ -8,7 +8,7 @@ const getAllProducts = async (req, res) => {
     if (category) {
       filters.category = { $in: category.split(",") };
     }
-    console.log(filters,req.query );
+
     let sort = {};
 
     switch (sortBy) {

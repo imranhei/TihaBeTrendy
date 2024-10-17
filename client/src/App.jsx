@@ -17,6 +17,11 @@ import AdminDashboard from "./pages/admin-view/dashboard";
 import AdminProducts from "./pages/admin-view/products";
 import AdminSalesReport from "./pages/admin-view/sales";
 import AdminOrders from "./pages/admin-view/order";
+import AdminSettings from "./pages/admin-view/settings";
+import AdminDelivery from "./pages/admin-view/delivery";
+import Users from "./pages/admin-view/users";
+import Profile from "./pages/admin-view/profile";
+import AdminAnalytics from "./pages/admin-view/analytics";
 
 function App() {
   const { isAuthenticated, user, isLoading } = useSelector(
@@ -84,6 +89,11 @@ function App() {
           <Route path="products" element={<AdminProducts />} />
           <Route path="sales" element={<AdminSalesReport />} />
           <Route path="orders" element={<AdminOrders />} />
+          <Route path="delivery" element={<AdminDelivery />} />
+          <Route path="users" element={<Users />} />
+          <Route path="settings" element={<AdminSettings />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="dashboard/analytics" element={<AdminAnalytics />} />
         </Route>
 
         {/* Public shop routes for users and unauthenticated visitors */}
@@ -109,9 +119,6 @@ function App() {
 export default App;
 
 {
-  /* product component */
-}
-{
   /* product details component */
 }
 {
@@ -130,50 +137,11 @@ export default App;
   /* order details component */
 }
 {
-  /* user list component */
-}
-{
   /* user details component */
-}
-{
-  /* product list component */
 }
 {
   /* product details component */
 }
 {
-  /* product edit component */
-}
-{
-  /* product create component */
-}
-{
-  /* category list component */
-}
-{
-  /* category details component */
-}
-{
-  /* category edit component */
-}
-{
   /* category create component */
-}
-{
-  /* brand list component */
-}
-{
-  /* brand details component */
-}
-{
-  /* brand edit component */
-}
-{
-  /* brand create component */
-}
-{
-  /* order list component */
-}
-{
-  /* order details component */
 }

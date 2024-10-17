@@ -72,7 +72,7 @@ const AdminOrders = () => {
 
   const handleDelete = (id) => {
     dispatch(deleteOrder(id)).then((data) => {
-      if (data.payload?.success) {
+      if (data?.payload?.success) {
         setIsModalOpen(false);
         dispatch(fetchAllOrders());
         toast({

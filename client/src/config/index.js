@@ -46,6 +46,18 @@ export const loginFormControls = [
   },
 ];
 
+export const userRoleOptions = [
+  { id: "admin", label: "Admin" },
+  { id: "user", label: "User" },
+  { id: "super-admin", label: "Super Admin" },
+];
+
+export const userRoleMap = {
+  admin: "Admin",
+  user: "User",
+  "super-admin": "Super Admin",
+};
+
 export const adddProductFormElements = [
   {
     label: "Product ID",

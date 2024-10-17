@@ -8,13 +8,10 @@ import {
   BadgeDollarSign,
   Truck,
   ChevronDown,
+  Settings,
+  FileChartColumnIncreasing,
+  Users,
 } from "lucide-react";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import {
   Sheet,
   SheetContent,
@@ -27,18 +24,13 @@ const adminSidebarMenuItems = [
   {
     id: "dashboard",
     label: "Dashboard",
-    path: "/admin/dashboard",
+    path: "/admin/dashboard/analytics",
     icon: <LayoutDashboard size={20} />,
     submenu: [
       {
         id: "analytics",
         label: "Analytics",
         path: "/admin/dashboard/analytics",
-      },
-      {
-        id: "users",
-        label: "Users",
-        path: "/admin/dashboard/users",
       },
       {
         id: "summary",
@@ -54,27 +46,59 @@ const adminSidebarMenuItems = [
     icon: <ShoppingBasket size={20} />,
   },
   {
-    id: "report",
-    label: "Report",
-    path: "/admin/sales",
-    icon: <BadgeDollarSign size={20} />,
+    id: "management",
+    label: "Management",
+    path: "/admin/management",
+    icon: <FileChartColumnIncreasing size={20} />,
+    submenu: [
+      {
+        id: "delivery",
+        label: "Delivery",
+        path: "/admin/delivery",
+        icon: <Truck size={20} />,
+      },
+      {
+        id: "orders",
+        label: "Orders",
+        path: "/admin/orders",
+        icon: <ShoppingCart size={20} />,
+      },
+    ],
   },
   {
-    id: "delivery",
-    label: "Delivery",
-    path: "/admin/delivery",
-    icon: <Truck size={20} />,
+    id: "users",
+    label: "Users",
+    path: "/admin/users",
+    icon: <Users size={18} />,
   },
   {
-    id: "orders",
-    label: "Orders",
-    path: "/admin/orders",
-    icon: <ShoppingCart size={20} />,
+    id: "settings",
+    label: "Settings",
+    path: "/admin/profile",
+    icon: <Settings size={20} />,
+    submenu: [
+      {
+        id: "profile",
+        label: "Profile",
+        path: "/admin/profile",
+      },
+      {
+        id: "account",
+        label: "Account",
+        path: "/admin/account",
+      },
+      // {
+      //   id: "security",
+      //   label: "Security",
+      //   path: "/admin/settings/security",
+      // },
+    ],
   },
 ];
 
 function MenuItem({ setOpenSidebar }) {
   const [openMenu, setOpenMenu] = useState(null);
+  const [submenuOpen, setSubmenuOpen] = useState(null)
   const location = useLocation();
 
   const handleMenuClick = (itemId) => {
@@ -86,32 +110,42 @@ function MenuItem({ setOpenSidebar }) {
       {adminSidebarMenuItems.map((item) => (
         <div key={item.id} className="flex flex-col">
           <Link
-            to={item.path}
+            to={item.submenu ? item.submenu[0].path : item.path}
             className={`flex items-center justify-between gap-2 rounded-md px-3 py-2 font-semibold text-gray-500 hover:text-black cursor-pointer hover:bg-gray-100 ${
               location.pathname.includes(item.path) ? "bg-gray-100" : ""
             }`}
-            onClick={() => {
-              handleMenuClick(item.id);
-              setOpenSidebar && setOpenSidebar(false);
-            }}
+            onClick={() => setSubmenuOpen(item.id)}
           >
-            <p className="flex items-center gap-2">
+            <p className="flex items-center gap-2 z-20">
               {item.icon}
               <span>{item.label}</span>
             </p>
-            {item.submenu && <ChevronDown className={`${openMenu ? 'rotate-180' : ''} transition-all duration-300`} size={20} />}
+            {item.submenu && (
+              <ChevronDown
+                className={`${
+                  openMenu && openMenu === item.id ? "rotate-180" : ""
+                } transition-all duration-300 z-30`}
+                size={20}
+                onClick={() => {
+                  handleMenuClick(item.id);
+                  setOpenSidebar && setOpenSidebar(false);
+                }}
+              />
+            )}
           </Link>
           {item.submenu && openMenu === item.id && (
-            <div className={`expandable ${
-              openMenu === item.id ? "show" : ""
-            } ml-6 mt-2 flex flex-col gap-2`}>
+            <div
+              className={`expandable ${
+                openMenu === item.id ? "show" : ""
+              } ml-6 mt-2 flex flex-col gap-2`}
+            >
               {item.submenu.map((subItem) => (
                 <Link
                   to={subItem.path}
                   key={subItem.id}
-                  className={`flex items-center gap-2 rounded-md px-3 py-2 text-gray-400 hover:text-gray-600 cursor-pointer hover:bg-gray-100 ${
+                  className={`flex items-center gap-2 font-semibold rounded-md px-3 py-2 text-gray-400 hover:text-gray-600 cursor-pointer hover:bg-gray-100 ${
                     location.pathname.includes(subItem.path)
-                      ? "bg-gray-100"
+                      ? "bg-gray-100 text-gray-800"
                       : ""
                   }`}
                   onClick={() => {
