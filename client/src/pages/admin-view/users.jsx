@@ -107,7 +107,7 @@ const Users = () => {
 
   return (
     <div className="bg-background rounded-lg sm:p-6 p-4 shadow-md">
-      <h1 className="text-center py-4 text-3xl font-bold">User List</h1>
+      <h1 className="text-center py-4 sm:text-3xl text-xl font-bold">User List</h1>
       <Table>
         <TableHeader>
           <TableRow className="p-0 text-nowrap bg-muted">
@@ -157,7 +157,7 @@ const Users = () => {
               <TableCell className="text-nowrap">
                 {user?.createdAt.split("T")[0]}
               </TableCell>
-              <TableCell className="text-center flex gap-2 justify-center">
+              <TableCell className="text-center flex gap-2 justify-center items-center lg:mt-2 sm:mt-1 mt-px">
                 <Eye size={20} className="text-teal-500" />
                 <Trash2
                   onClick={() => {

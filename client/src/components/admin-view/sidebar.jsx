@@ -24,7 +24,7 @@ const adminSidebarMenuItems = [
   {
     id: "dashboard",
     label: "Dashboard",
-    path: "/admin/dashboard/analytics",
+    path: "/admin/dashboard",
     icon: <LayoutDashboard size={20} />,
     submenu: [
       {
@@ -83,22 +83,16 @@ const adminSidebarMenuItems = [
         path: "/admin/profile",
       },
       {
-        id: "account",
-        label: "Account",
-        path: "/admin/account",
+        id: "customize",
+        label: "Customize",
+        path: "/admin/customize",
       },
-      // {
-      //   id: "security",
-      //   label: "Security",
-      //   path: "/admin/settings/security",
-      // },
     ],
   },
 ];
 
 function MenuItem({ setOpenSidebar }) {
   const [openMenu, setOpenMenu] = useState(null);
-  const [submenuOpen, setSubmenuOpen] = useState(null)
   const location = useLocation();
 
   const handleMenuClick = (itemId) => {
@@ -109,52 +103,61 @@ function MenuItem({ setOpenSidebar }) {
     <nav className="mt-8 flex flex-col gap-2">
       {adminSidebarMenuItems.map((item) => (
         <div key={item.id} className="flex flex-col">
-          <Link
-            to={item.submenu ? item.submenu[0].path : item.path}
-            className={`flex items-center justify-between gap-2 rounded-md px-3 py-2 font-semibold text-gray-500 hover:text-black cursor-pointer hover:bg-gray-100 ${
+          <div
+            className={`flex justify-between items-center rounded-md ${
               location.pathname.includes(item.path) ? "bg-gray-100" : ""
             }`}
-            onClick={() => setSubmenuOpen(item.id)}
           >
-            <p className="flex items-center gap-2 z-20">
+            <Link
+              to={item.path}
+              className={`flex w-full items-center justify-start gap-2 rounded-md px-3 py-2 font-semibold text-gray-500 hover:text-black cursor-pointer hover:bg-gray-100`}
+            >
               {item.icon}
               <span>{item.label}</span>
-            </p>
+            </Link>
             {item.submenu && (
-              <ChevronDown
+              <div
                 className={`${
-                  openMenu && openMenu === item.id ? "rotate-180" : ""
-                } transition-all duration-300 z-30`}
+                  openMenu === item.id ? "rotate-180" : ""
+                } p-1 rounded transition-all duration-300 cursor-pointer`}
                 size={20}
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation(); // Prevent triggering Link
                   handleMenuClick(item.id);
-                  setOpenSidebar && setOpenSidebar(false);
+                  if (setOpenSidebar) setOpenSidebar(false);
                 }}
-              />
+              >
+                <ChevronDown />
+              </div>
             )}
-          </Link>
+          </div>
+
           {item.submenu && openMenu === item.id && (
             <div
               className={`expandable ${
                 openMenu === item.id ? "show" : ""
               } ml-6 mt-2 flex flex-col gap-2`}
             >
-              {item.submenu.map((subItem) => (
-                <Link
-                  to={subItem.path}
-                  key={subItem.id}
-                  className={`flex items-center gap-2 font-semibold rounded-md px-3 py-2 text-gray-400 hover:text-gray-600 cursor-pointer hover:bg-gray-100 ${
-                    location.pathname.includes(subItem.path)
-                      ? "bg-gray-100 text-gray-800"
-                      : ""
-                  }`}
-                  onClick={() => {
-                    setOpenSidebar ? setOpenSidebar(false) : null;
-                  }}
-                >
-                  <span>{subItem.label}</span>
-                </Link>
-              ))}
+              {item.submenu && openMenu === item.id && (
+                <div className="ml-4 mt-2 flex flex-col gap-2">
+                  {item.submenu.map((subItem) => (
+                    <Link
+                      to={subItem.path}
+                      key={subItem.id}
+                      className={`flex items-center gap-2 font-semibold rounded-md px-3 py-2 text-gray-400 hover:text-gray-600 cursor-pointer hover:bg-gray-100 ${
+                        location.pathname.includes(subItem.path)
+                          ? "bg-gray-100 text-gray-800"
+                          : ""
+                      }`}
+                      onClick={() => {
+                        if (setOpenSidebar) setOpenSidebar(false);
+                      }}
+                    >
+                      {subItem.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
             </div>
           )}
         </div>
