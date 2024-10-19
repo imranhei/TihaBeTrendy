@@ -148,46 +148,46 @@ const logout = async (req, res) => {
 };
 
 // Auth Middleware // have subdomain
-// const authMiddleware = async (req, res, next) => {
-//   try {
-//     const token = req.cookies.token;
-//     if (!token) {
-//       return res.status(401).json({ success: false, error: "Unauthorized" });
-//     }
-//     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-//     req.user = decoded;
-//     next();
-//   } catch (error) {
-//     return res
-//       .status(401)
-//       .json({ success: false, message: "Unauthorized", error: error.message });
-//   }
-// };
-
-// Auth Middleware // if i don't have any subdomain
 const authMiddleware = async (req, res, next) => {
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
-
-  if (!token) {
-    return res.status(401).json({
-      success: false,
-      message: "Unauthorized access",
-    });
-  }
-
   try {
+    const token = req.cookies.token;
+    if (!token) {
+      return res.status(401).json({ success: false, error: "Unauthorized" });
+    }
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded;
     next();
   } catch (error) {
-    res.status(401).json({
-      success: false,
-      message: "Unauthorized user",
-      error: error.message,
-    });
+    return res
+      .status(401)
+      .json({ success: false, message: "Unauthorized", error: error.message });
   }
 };
+
+// Auth Middleware // if i don't have any subdomain
+// const authMiddleware = async (req, res, next) => {
+//   const authHeader = req.headers["authorization"];
+//   const token = authHeader && authHeader.split(" ")[1];
+
+//   if (!token) {
+//     return res.status(401).json({
+//       success: false,
+//       message: "Unauthorized access",
+//     });
+//   }
+
+//   try {
+//     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+//     req.user = decoded;
+//     next();
+//   } catch (error) {
+//     res.status(401).json({
+//       success: false,
+//       message: "Unauthorized user",
+//       error: error.message,
+//     });
+//   }
+// };
 
 // delete user by supper admin
 const deleteUser = async (req, res) => {
