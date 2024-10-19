@@ -20,7 +20,7 @@ router.get("/check-auth", authMiddleware, (req, res) => {
     const user = req.user;
     res.status(200).json({ success: true, message: "User authenticated", user });
   });
-router.delete("/delete/:id", isSuperAdmin, deleteUser);
-router.post("/register-super-admin",isSuperAdmin, registerSuperAdmin);
+router.delete("/delete/:id", authMiddleware, isSuperAdmin, deleteUser);
+router.post("/register-super-admin", authMiddleware, isSuperAdmin, registerSuperAdmin);
 
 module.exports = router;

@@ -6,7 +6,6 @@ const User = require("../../models/User");
 const registerUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
-    console.log(req.body);
     // Check if user already exists
     const user = await User.findOne({ email });
     if (user) {
@@ -60,10 +59,18 @@ const registerSuperAdmin = async (req, res) => {
   }
 };
 
+
+const isAdmin = (req, res, next) => {
+  if (req.user.role !== "admin" && req.user.role !== "super-admin") {
+    return res.status(403).json({ error: "Access denied. Admin or super admin required." });
+  }
+  next();
+}
+
 // Middleware to check if user is super admin
 const isSuperAdmin = (req, res, next) => {
-  if (req.user.role !== "superadmin") {
-    return res.status(403).json({ error: "Access denied" });
+  if (req.user.role !== "super-admin") {
+    return res.status(403).json({ error: "Access denied. Super admin required." });
   }
   next();
 };
@@ -241,6 +248,7 @@ module.exports = {
   authMiddleware,
   deleteUser,
   registerSuperAdmin,
+  isAdmin,
   isSuperAdmin,
   resetPassword,
 };

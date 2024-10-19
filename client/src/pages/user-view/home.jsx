@@ -62,7 +62,7 @@ const Home = () => {
   return (
     <div className="min-h-screen">
       <h1 className="flex-1 text-center sm:py-10 py-4 sm:text-4xl text-xl font-bold text-muted-foreground">
-        Welcome to TiHa-be-trendy
+        Welcome to TiHa-be trendy
       </h1>
       <hr />
       <div className="flex md:flex-row flex-col gap-6 p-4 md:p-6">

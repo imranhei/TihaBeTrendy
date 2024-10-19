@@ -5,6 +5,7 @@ import {
   updateUser,
   deleteUser,
 } from "@/store/admin/user-slice";
+import { deleteAccount } from "@/store/auth-slice";
 import {
   Table,
   TableBody,
@@ -75,7 +76,9 @@ const Users = () => {
   };
 
   const handleDelete = (id) => {
-    dispatch(deleteUser(id)).then((data) => {
+    const token = JSON.parse(sessionStorage.getItem("token"));
+
+    dispatch(deleteAccount({ id, token })).then((data) => {
       if (data?.payload?.success) {
         dispatch(fetchAllUsers());
         setIsModalOpen(false);
@@ -83,7 +86,20 @@ const Users = () => {
         toast({
           title: "User Deleted Successfully",
         });
+      } else {
+        toast({
+          title: data?.payload?.error || "Failed to Delete User",
+          type: "destructive",
+        });
       }
+    })
+    .catch((error) => {
+      // Catch any other unforeseen errors
+      console.log("Error:", error);
+      toast({
+        title: "An unexpected error occurred",
+        type: "error",
+      });
     });
   };
 
@@ -107,7 +123,9 @@ const Users = () => {
 
   return (
     <div className="bg-background rounded-lg sm:p-6 p-4 shadow-md">
-      <h1 className="text-center py-4 sm:text-3xl text-xl font-bold">User List</h1>
+      <h1 className="text-center py-4 sm:text-3xl text-xl font-bold">
+        User List
+      </h1>
       <Table>
         <TableHeader>
           <TableRow className="p-0 text-nowrap bg-muted">
