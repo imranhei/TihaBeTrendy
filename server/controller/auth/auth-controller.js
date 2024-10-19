@@ -99,7 +99,7 @@ const login = async (req, res) => {
     user.lastLogin = new Date(); // Set the current date and time
     await user.save();
     //have subdomain
-    return res.cookie("token", token, { httpOnly: true, secure: true }).json({
+    return res.cookie("token", token, { httpOnly: true, secure: true, sameSite: 'None' }).json({
       success: true,
       message: "logged in successfully",
       user: {
