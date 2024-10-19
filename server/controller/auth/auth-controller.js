@@ -99,22 +99,9 @@ const login = async (req, res) => {
     user.lastLogin = new Date(); // Set the current date and time
     await user.save();
     //have subdomain
-    // return res.cookie("token", token, { httpOnly: true, secure: true }).json({
-    //   success: true,
-    //   message: "logged in successfully",
-    //   user: {
-    //     id: user._id,
-    //     name: user.name,
-    //     email: user.email,
-    //     role: user.role,
-    //   },
-    // });
-
-    // if i don't have any subdomain
-    res.status(200).json({
+    return res.cookie("token", token, { httpOnly: true, secure: true }).json({
       success: true,
-      message: "Login successfull",
-      token,
+      message: "logged in successfully",
       user: {
         id: user._id,
         name: user.name,
@@ -122,6 +109,19 @@ const login = async (req, res) => {
         role: user.role,
       },
     });
+
+    // if i don't have any subdomain
+    // res.status(200).json({
+    //   success: true,
+    //   message: "Login successfull",
+    //   token,
+    //   user: {
+    //     id: user._id,
+    //     name: user.name,
+    //     email: user.email,
+    //     role: user.role,
+    //   },
+    // });
   } catch (error) {
     return res.status(500).json({
       success: false,
