@@ -32,8 +32,8 @@ function App() {
   // console.log(isAuthenticated, user, isLoading);
   
   useEffect(() => {
-    // const token = JSON.parse(sessionStorage.getItem("token")); //if i don't have any subdomain
-    dispatch(checkAuth());
+    const token = JSON.parse(sessionStorage.getItem("token")); //if i don't have any subdomain pass this token
+    dispatch(checkAuth(token));
   }, [dispatch]);
   
   if(isLoading){

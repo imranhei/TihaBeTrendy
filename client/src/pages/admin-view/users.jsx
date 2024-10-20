@@ -34,7 +34,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { Eye, Save, Trash2 } from "lucide-react";
+import { ArrowDownUp, Eye, Save, Trash2 } from "lucide-react";
 import { useToast } from "../../hooks/use-toast";
 import { userRoleOptions, userRoleMap } from "@/config";
 
@@ -130,7 +130,7 @@ const Users = () => {
         <TableHeader>
           <TableRow className="p-0 text-nowrap bg-muted">
             <TableHead>Serial</TableHead>
-            <TableHead>Name</TableHead>
+            <TableHead className="flex gap-2 items-center justify-between"><span>Name</span> <ArrowDownUp className="text-gray-300 hover:text-muted-foreground cursor-pointer" size={16} /></TableHead>
             <TableHead>Email</TableHead>
             <TableHead>Role</TableHead>
             <TableHead>Last Login</TableHead>

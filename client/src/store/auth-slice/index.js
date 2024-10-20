@@ -42,35 +42,35 @@ export const logoutUser = createAsyncThunk("auth/logoutUser", async () => {
 });
 
 // have subdomain
-export const checkAuth = createAsyncThunk("/auth/checkauth", async () => {
-  const response = await axios.get(
-    `${import.meta.env.VITE_API_URL}/api/auth/check-auth`,
-    {
-      withCredentials: true,
-      headers: {
-        "Cache-Control":
-          "no-store, no-cache, must-revalidate, proxy-revalidate",
-        Expires: "0",
-      },
-    }
-  );
-  return response.data;
-});
-
-// if i don't have any subdomain
-// export const checkAuth = createAsyncThunk("/auth/checkauth", async (token) => {
+// export const checkAuth = createAsyncThunk("/auth/checkauth", async () => {
 //   const response = await axios.get(
 //     `${import.meta.env.VITE_API_URL}/api/auth/check-auth`,
 //     {
+//       withCredentials: true,
 //       headers: {
-//         Authorization: `Bearer ${token}`,
 //         "Cache-Control":
 //           "no-store, no-cache, must-revalidate, proxy-revalidate",
+//         Expires: "0",
 //       },
 //     }
 //   );
 //   return response.data;
 // });
+
+// if i don't have any subdomain
+export const checkAuth = createAsyncThunk("/auth/checkauth", async (token) => {
+  const response = await axios.get(
+    `${import.meta.env.VITE_API_URL}/api/auth/check-auth`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Cache-Control":
+          "no-store, no-cache, must-revalidate, proxy-revalidate",
+      },
+    }
+  );
+  return response.data;
+});
 
 export const deleteAccount = createAsyncThunk(
   "auth/deleteAccount",

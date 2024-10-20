@@ -39,7 +39,7 @@ const registerSuperAdmin = async (req, res) => {
     }
 
     // Validate that the role is one of the allowed roles
-    if (!["admin", "superadmin"].includes(role)) {
+    if (!["admin", "super-admin"].includes(role)) {
       return res.status(400).json({ error: "Invalid role provided" });
     }
 
@@ -95,26 +95,13 @@ const login = async (req, res) => {
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
-    // Update last login time
-    user.lastLogin = new Date(); // Set the current date and time
+
+    user.lastLogin = new Date();
     await user.save();
     //have subdomain
-    return res.cookie("token", token, { httpOnly: true, secure: true, sameSite: 'None' }).json({
-      success: true,
-      message: "logged in successfully",
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-      },
-    });
-
-    // if i don't have any subdomain
-    // res.status(200).json({
+    // return res.cookie("token", token, { httpOnly: true, secure: true, sameSite: 'None' }).json({
     //   success: true,
-    //   message: "Login successfull",
-    //   token,
+    //   message: "logged in successfully",
     //   user: {
     //     id: user._id,
     //     name: user.name,
@@ -122,6 +109,19 @@ const login = async (req, res) => {
     //     role: user.role,
     //   },
     // });
+
+    // if i don't have any subdomain
+    res.status(200).json({
+      success: true,
+      message: "Login successfull",
+      token,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
+    });
   } catch (error) {
     return res.status(500).json({
       success: false,
@@ -148,46 +148,46 @@ const logout = async (req, res) => {
 };
 
 // Auth Middleware // have subdomain
-const authMiddleware = async (req, res, next) => {
-  try {
-    const token = req.cookies.token;
-    if (!token) {
-      return res.status(401).json({ success: false, error: "Unauthorized" });
-    }
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded;
-    next();
-  } catch (error) {
-    return res
-      .status(401)
-      .json({ success: false, message: "Unauthorized", error: error.message });
-  }
-};
-
-// Auth Middleware // if i don't have any subdomain
 // const authMiddleware = async (req, res, next) => {
-//   const authHeader = req.headers["authorization"];
-//   const token = authHeader && authHeader.split(" ")[1];
-
-//   if (!token) {
-//     return res.status(401).json({
-//       success: false,
-//       message: "Unauthorized access",
-//     });
-//   }
-
 //   try {
+//     const token = req.cookies.token;
+//     if (!token) {
+//       return res.status(401).json({ success: false, error: "Unauthorized" });
+//     }
 //     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 //     req.user = decoded;
 //     next();
 //   } catch (error) {
-//     res.status(401).json({
-//       success: false,
-//       message: "Unauthorized user",
-//       error: error.message,
-//     });
+//     return res
+//       .status(401)
+//       .json({ success: false, message: "Unauthorized", error: error.message });
 //   }
 // };
+
+// Auth Middleware // if i don't have any subdomain
+const authMiddleware = async (req, res, next) => {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+
+  if (!token) {
+    return res.status(401).json({
+      success: false,
+      message: "Unauthorized access",
+    });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded;
+    next();
+  } catch (error) {
+    res.status(401).json({
+      success: false,
+      message: "Unauthorized user",
+      error: error.message,
+    });
+  }
+};
 
 // delete user by supper admin
 const deleteUser = async (req, res) => {

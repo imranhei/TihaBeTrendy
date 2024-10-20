@@ -26,18 +26,18 @@ const adminSidebarMenuItems = [
     label: "Dashboard",
     path: "/admin/dashboard",
     icon: <LayoutDashboard size={20} />,
-    submenu: [
-      {
-        id: "analytics",
-        label: "Analytics",
-        path: "/admin/dashboard/analytics",
-      },
-      {
-        id: "summary",
-        label: "Summary",
-        path: "/admin/dashboard/summary",
-      },
-    ],
+    // submenu: [
+    //   {
+    //     id: "analytics",
+    //     label: "Analytics",
+    //     path: "/admin/dashboard/analytics",
+    //   },
+    //   {
+    //     id: "summary",
+    //     label: "Summary",
+    //     path: "/admin/dashboard/summary",
+    //   },
+    // ],
   },
   {
     id: "products",
@@ -124,7 +124,7 @@ function MenuItem({ setOpenSidebar }) {
                 onClick={(e) => {
                   e.stopPropagation(); // Prevent triggering Link
                   handleMenuClick(item.id);
-                  if (setOpenSidebar) setOpenSidebar(false);
+                  // if (setOpenSidebar) setOpenSidebar(false);
                 }}
               >
                 <ChevronDown />
