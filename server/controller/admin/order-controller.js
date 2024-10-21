@@ -23,7 +23,8 @@ const addOrder = async (req, res) => {
     await productExist.save({ session });
 
     // Create order
-    const order = new Order({ productId, quantity, price, date });
+    const totalPrice = quantity * price;
+    const order = new Order({ productId, quantity, price, totalPrice,  date });
     await order.save({ session });
 
      // Commit the transaction
@@ -85,10 +86,12 @@ const updateOrder = async (req, res) => {
     product.stock -= quantityDifference; // Adjust stock by the difference in quantity
     await product.save({ session });
 
+    const totalPrice = quantity * price;
     // Update the order fields
     order.productId = productId || order.productId;
     order.quantity = quantity || order.quantity;
     order.price = price || order.price;
+    order.totalPrice = totalPrice;
     order.date = date || order.date;
 
     // Save the updated order

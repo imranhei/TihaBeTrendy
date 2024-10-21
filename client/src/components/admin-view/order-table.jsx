@@ -39,6 +39,7 @@ const AdminOrderTable = ({
             <TableHead>Product Id</TableHead>
             <TableHead>Quantity</TableHead>
             <TableHead>Price</TableHead>
+            <TableHead>Total</TableHead>
             <TableHead>Date</TableHead>
             <TableHead className="w-40 text-center">Action</TableHead>
           </TableRow>
@@ -49,6 +50,7 @@ const AdminOrderTable = ({
               <TableCell>{order?.productId}</TableCell>
               <TableCell>{order?.quantity}</TableCell>
               <TableCell>{order?.price}</TableCell>
+              <TableCell>{order?.totalPrice}</TableCell>
               <TableCell className="text-nowrap">{order?.date}</TableCell>
               <TableCell className="flex justify-center gap-2">
                 <Pencil
@@ -74,7 +76,7 @@ const AdminOrderTable = ({
         </TableBody>
         <TableFooter>
           <TableRow>
-            <TableCell className="py-4" colSpan={2}>
+            <TableCell className="py-4" colSpan={3}>
               Total
             </TableCell>
             <TableCell className="py-4" colSpan={3}>

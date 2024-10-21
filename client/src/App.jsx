@@ -23,6 +23,7 @@ import Users from "./pages/admin-view/users";
 import Profile from "./pages/admin-view/profile";
 import AdminAnalytics from "./pages/admin-view/analytics";
 import Contact from "./pages/user-view/contact";
+import OtherCost from "./pages/admin-view/other-cost";
 
 function App() {
   const { isAuthenticated, user, isLoading } = useSelector(
@@ -95,6 +96,7 @@ function App() {
           <Route path="settings" element={<AdminSettings />} />
           <Route path="profile" element={<Profile />} />
           <Route path="dashboard/analytics" element={<AdminAnalytics />} />
+          <Route path="other-cost" element={<OtherCost />} />
         </Route>
 
         {/* Public shop routes for users and unauthenticated visitors */}

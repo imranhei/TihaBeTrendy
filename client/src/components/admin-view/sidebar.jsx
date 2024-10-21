@@ -11,6 +11,9 @@ import {
   Settings,
   FileChartColumnIncreasing,
   Users,
+  ShieldPlus,
+  CircleUser,
+  FilePenLine,
 } from "lucide-react";
 import {
   Sheet,
@@ -48,7 +51,7 @@ const adminSidebarMenuItems = [
   {
     id: "management",
     label: "Management",
-    path: "/admin/management",
+    path: "/admin/orders",
     icon: <FileChartColumnIncreasing size={20} />,
     submenu: [
       {
@@ -63,6 +66,12 @@ const adminSidebarMenuItems = [
         path: "/admin/orders",
         icon: <ShoppingCart size={20} />,
       },
+      {
+        id: "other-cost",
+        label: "Other Cost",
+        path: "/admin/other-cost",
+        icon: <ShieldPlus size={20} />
+      }
     ],
   },
   {
@@ -81,11 +90,13 @@ const adminSidebarMenuItems = [
         id: "profile",
         label: "Profile",
         path: "/admin/profile",
+        icon: <CircleUser size={20} />
       },
       {
         id: "customize",
         label: "Customize",
         path: "/admin/customize",
+        icon: <FilePenLine size={20} />
       },
     ],
   },
@@ -110,6 +121,7 @@ function MenuItem({ setOpenSidebar }) {
           >
             <Link
               to={item.path}
+              onClick={() => {setOpenSidebar && setOpenSidebar(false)}}
               className={`flex w-full items-center justify-start gap-2 rounded-md px-3 py-2 font-semibold text-gray-500 hover:text-black cursor-pointer hover:bg-gray-100`}
             >
               {item.icon}
@@ -127,7 +139,7 @@ function MenuItem({ setOpenSidebar }) {
                   // if (setOpenSidebar) setOpenSidebar(false);
                 }}
               >
-                <ChevronDown />
+                <ChevronDown className="text-muted-foreground" />
               </div>
             )}
           </div>
@@ -136,7 +148,7 @@ function MenuItem({ setOpenSidebar }) {
             <div
               className={`expandable ${
                 openMenu === item.id ? "show" : ""
-              } ml-6 mt-2 flex flex-col gap-2`}
+              } ml-2 mt-2 flex flex-col gap-2`}
             >
               {item.submenu && openMenu === item.id && (
                 <div className="ml-4 mt-2 flex flex-col gap-2">
@@ -153,7 +165,8 @@ function MenuItem({ setOpenSidebar }) {
                         if (setOpenSidebar) setOpenSidebar(false);
                       }}
                     >
-                      {subItem.label}
+                      {subItem.icon}
+                      <span>{subItem.label}</span>
                     </Link>
                   ))}
                 </div>

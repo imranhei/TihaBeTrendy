@@ -27,11 +27,10 @@ const orderSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  // ],
-  // total: {
-  //     type: Number,
-  //     required: true,
-  // },
+  totalPrice: {
+      type: Number,
+      required: true,
+  },
   date: {
     type: String,
     default: function () {
