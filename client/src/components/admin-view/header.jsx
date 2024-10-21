@@ -25,8 +25,8 @@ const AdminHeader = ({ setOpenSidebar }) => {
         <AlignJustify size={18} />
         <span className="sr-only">Toggle Menu</span>
       </Button>
-      <div className="flex flex-1 justify-center">
-        <img src="/icon.png" className="h-6 w-6 mr-2" />
+      <div className="flex flex-1 justify-start items-center">
+        <img src="/tiha_icon.png" className="w-16 mr-2" />
         <span className="font-bold text-lg text-violet-800">
           Tiha Be Trendy
         </span>

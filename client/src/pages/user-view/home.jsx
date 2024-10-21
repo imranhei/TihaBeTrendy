@@ -4,7 +4,6 @@ import { fetchAllProducts } from "@/store/user/product-slice";
 import UserProductTile from "@/components/user-view/product-tile";
 import ProductFilter from "@/components/user-view/product-filter";
 import { useSearchParams } from "react-router-dom";
-import { Separator } from "@radix-ui/react-select";
 
 const Home = () => {
   const [filters, setFilters] = useState([]);

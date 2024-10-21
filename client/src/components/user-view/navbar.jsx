@@ -29,9 +29,10 @@ const MenuItems = () => {
     <nav className="flex flex-col mb-3 lg:mb-0 lg:items-center gap-6 md:flex-row">
       {shoppingViewHeaderMenuItems.map((menuItem) => {
         return (
-          <Label
+          <Link
             // onClick={() => handleNavigate(menuItem)}
             key={menuItem.id}
+            to={menuItem.path}
             className={`text-sm font-medium cursor-pointer hover:text-primary ${
               location.pathname.includes(menuItem.path)
                 ? "text-primary"
@@ -39,7 +40,7 @@ const MenuItems = () => {
             }`}
           >
             {menuItem.label}
-          </Label>
+          </Link>
         );
       })}
     </nav>
@@ -128,10 +129,10 @@ const Navbar = () => {
     <header className="sticky top-0 z-30 border-b bg-background">
       <div className="flex h-14 items-center justify-between px-4 md:px-6">
         <Link className="flex items-center gap-2" to="/shop/home">
-          <img src="/icon.png" className="h-8 w-8" />
-          <span className="font-bold text-lg text-violet-800">
+          <img src="/tiha_icon.png" className="w-20" />
+          {/* <span className="font-bold text-lg text-violet-800">
             Tiha Be Trendy
-          </span>
+          </span> */}
         </Link>
         <Sheet>
           <SheetTrigger asChild>

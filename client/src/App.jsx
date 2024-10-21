@@ -22,6 +22,7 @@ import AdminDelivery from "./pages/admin-view/delivery";
 import Users from "./pages/admin-view/users";
 import Profile from "./pages/admin-view/profile";
 import AdminAnalytics from "./pages/admin-view/analytics";
+import Contact from "./pages/user-view/contact";
 
 function App() {
   const { isAuthenticated, user, isLoading } = useSelector(
@@ -107,6 +108,7 @@ function App() {
         >
           {/* Nested route for Home page */}
           <Route path="home" element={<Home />} />
+          <Route path="contact" element={<Contact />} />
         </Route>
 
         {/* Catch-all route for undefined paths */}
