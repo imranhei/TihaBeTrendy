@@ -7,10 +7,11 @@ const {
   updateOrder,
   deleteOrder
 } = require("../../controller/admin/order-controller");
+const { authMiddleware, isAdmin } = require("../../controller/auth/auth-controller");
 
-router.post("/add-order", addOrder);
-router.get("/get-all-orders", getAllOrders);
-router.put("/update-order/:id", updateOrder);
-router.delete("/delete-order/:id", deleteOrder);
+router.post("/add-order", authMiddleware, isAdmin, addOrder);
+router.get("/get-all-orders", authMiddleware, isAdmin, getAllOrders);
+router.put("/update-order/:id", authMiddleware, isAdmin, updateOrder);
+router.delete("/delete-order/:id", authMiddleware, isAdmin, deleteOrder);
 
 module.exports = router;

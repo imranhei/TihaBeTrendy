@@ -20,13 +20,14 @@ const AdminHeader = ({ setOpenSidebar }) => {
       <div className="flex justify-between flex-1 items-center">
       <Button
         onClick={() => setOpenSidebar(true)}
-        className="lg:hidden sm:block shadow px-2 sm:px-4 h-8 sm:h-10"
+        className="lg:hidden sm:block px-2 sm:px-4 h-8 sm:h-10"
+        variant="white"
       >
         <AlignJustify size={18} />
         <span className="sr-only">Toggle Menu</span>
       </Button>
       <div className="flex flex-1 justify-start items-center">
-        <img src="/tiha_icon.png" className="lg:w-16 sm:w-14 w-12 mr-2 sm:ml-0 ml-2" />
+        <img src="/tiha_icon.png" className="lg:w-16 sm:w-14 w-12 mr-2 lg:ml-0 ml-2" />
         <span className="font-bold text-lg text-violet-800 sm:block hidden">
           Tiha Be Trendy
         </span>
@@ -34,7 +35,8 @@ const AdminHeader = ({ setOpenSidebar }) => {
       {/* <div className="flex flex-1 justify-end"> */}
         <Button
           onClick={handleLogout}
-          className="inline-flex lg:gap-2 sm:gap-1 items-center py-2 sm:text-sm text-xs font-medium shadow px-3 sm:px-4 h-8 sm:h-10"
+          className="inline-flex lg:gap-2 sm:gap-1 items-center py-2 sm:text-sm text-xs font-medium px-3 sm:px-4 h-8 sm:h-10"
+          variant="white"
         >
           <LogOut size={18} />
           <span className="sm:block hidden">Log Out</span>
@@ -45,4 +47,3 @@ const AdminHeader = ({ setOpenSidebar }) => {
 };
 
 export default AdminHeader;
-// hover:bg-black bg-gray-800 text-white

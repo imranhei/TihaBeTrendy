@@ -9,8 +9,14 @@ const initialState = {
 export const fetchAllProducts = createAsyncThunk(
   "product/fetchAllProducts",
   async () => {
+    const token = JSON.parse(sessionStorage.getItem("token"));
     const response = await axios.get(
-      `${import.meta.env.VITE_API_URL}/api/admin/product/get-all-products`
+      `${import.meta.env.VITE_API_URL}/api/admin/product/get-all-products`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
     return response.data;
   }
@@ -19,10 +25,16 @@ export const fetchAllProducts = createAsyncThunk(
 export const fetchProductById = createAsyncThunk(
   "product/fetchProductById",
   async (id) => {
+    const token = JSON.parse(sessionStorage.getItem("token"));
     const response = await axios.get(
       `${
         import.meta.env.VITE_API_URL
-      }/api/admin/product/get-product-by-id/${id}`
+      }/api/admin/product/get-product-by-id/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
     return response.data;
   }
@@ -31,12 +43,14 @@ export const fetchProductById = createAsyncThunk(
 export const addProduct = createAsyncThunk(
   "product/addProduct",
   async (formData) => {
+    const token = JSON.parse(sessionStorage.getItem("token"));
     const response = await axios.post(
       `${import.meta.env.VITE_API_URL}/api/admin/product/add-product`,
       formData,
       {
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
       }
     );
@@ -47,12 +61,14 @@ export const addProduct = createAsyncThunk(
 export const updateProduct = createAsyncThunk(
   "product/updateProduct",
   async ({ id, formData }) => {
+    const token = JSON.parse(sessionStorage.getItem("token"));
     const response = await axios.put(
       `${import.meta.env.VITE_API_URL}/api/admin/product/update-product/${id}`,
       formData,
       {
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
       }
     );
@@ -63,8 +79,14 @@ export const updateProduct = createAsyncThunk(
 export const deleteProduct = createAsyncThunk(
   "product/deleteProduct",
   async (id) => {
+    const token = JSON.parse(sessionStorage.getItem("token"));
     const response = await axios.delete(
-      `${import.meta.env.VITE_API_URL}/api/admin/product/delete-product/${id}`
+      `${import.meta.env.VITE_API_URL}/api/admin/product/delete-product/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
     return response.message;
   }
@@ -86,7 +108,7 @@ export const AdminProductSlice = createSlice({
       .addCase(fetchAllProducts.rejected, (state) => {
         state.isLoading = false;
         state.productList = [];
-      })
+      });
   },
 });
 

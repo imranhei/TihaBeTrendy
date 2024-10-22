@@ -9,8 +9,14 @@ const initialState = {
 export const fetchAllUsers = createAsyncThunk(
   "user/fetchAllUsers",
   async () => {
+    const token = JSON.parse(sessionStorage.getItem("token"));
     const response = await axios.get(
-      `${import.meta.env.VITE_API_URL}/api/admin/user/get-all-users`
+      `${import.meta.env.VITE_API_URL}/api/admin/user/get-all-users`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
     return response.data;
   }
@@ -19,8 +25,14 @@ export const fetchAllUsers = createAsyncThunk(
 export const fetchUserById = createAsyncThunk(
   "user/fetchUserById",
   async (id) => {
+    const token = JSON.parse(sessionStorage.getItem("token"));
     const response = await axios.get(
-      `${import.meta.env.VITE_API_URL}/api/admin/user/get-user-by-id/${id}`
+      `${import.meta.env.VITE_API_URL}/api/admin/user/get-user-by-id/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
     return response.data;
   }
@@ -29,12 +41,14 @@ export const fetchUserById = createAsyncThunk(
 export const updateUser = createAsyncThunk(
   "user/updateUser",
   async ({ id, role }) => {
+    const token = JSON.parse(sessionStorage.getItem("token"));
     const response = await axios.put(
       `${import.meta.env.VITE_API_URL}/api/admin/user/update-user/${id}`,
       { role },
       {
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
       }
     );
@@ -43,8 +57,14 @@ export const updateUser = createAsyncThunk(
 );
 
 export const deleteUser = createAsyncThunk("user/deleteUser", async (id) => {
+  const token = JSON.parse(sessionStorage.getItem("token"));
   const response = await axios.delete(
-    `${import.meta.env.VITE_API_URL}/api/admin/user/delete-user/${id}`
+    `${import.meta.env.VITE_API_URL}/api/admin/user/delete-user/${id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
   );
   return response.data;
 });

@@ -45,4 +45,3 @@ app.use("/api/user/product", userProductRoutes);
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
-// app.post('/register-admin', isSuperAdmin, registerAdmin);

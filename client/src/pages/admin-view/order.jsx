@@ -42,11 +42,12 @@ const AdminOrders = () => {
   const onSubmit = (e) => {
     e.preventDefault();
 
+    const token = JSON.parse(sessionStorage.getItem("token"));
     currentEditedId !== null
       ? dispatch(updateOrder({ id: currentEditedId, formData })).then(
           (data) => {
             if (data?.payload?.success) {
-              dispatch(fetchAllOrders());
+              dispatch(fetchAllOrders(token));
               setFormData(initialFormData);
               setCurrentEditedId(null);
               toast({
@@ -57,7 +58,7 @@ const AdminOrders = () => {
         )
       : dispatch(addOrder(formData)).then((data) => {
           if (data?.payload?.success) {
-            dispatch(fetchAllOrders());
+            dispatch(fetchAllOrders(token));
             setFormData(initialFormData);
             toast({
               title: "Order Added Successfully",
@@ -74,7 +75,7 @@ const AdminOrders = () => {
     dispatch(deleteOrder(id)).then((data) => {
       if (data?.payload?.success) {
         setIsModalOpen(false);
-        dispatch(fetchAllOrders());
+        dispatch(fetchAllOrders(token));
         toast({
           title: "Order Deleted Successfully",
         });
@@ -83,7 +84,8 @@ const AdminOrders = () => {
   };
 
   useEffect(() => {
-    dispatch(fetchAllOrders());
+    const token = JSON.parse(sessionStorage.getItem("token"));
+    dispatch(fetchAllOrders(token));
   }, [dispatch]);
 
   return (

@@ -29,7 +29,7 @@ const Contact = () => {
           </div>
           <div className="flex items-center gap-2">
             <Phone size={20} />
-            <p>+8801717641708</p>
+            <p>+8801721578479</p>
           </div>
           <div className="flex items-center gap-2">
             <CalendarDays size={20} />
@@ -43,7 +43,7 @@ const Contact = () => {
             <p className="font-semibold">Address</p>
           </div>
           <p>Tiha-be trendy</p>
-          <p>Matikata, Dhaka</p>
+          <p>Dhaka Cantonment</p>
           <iframe
             className="w-full h-[450px] pt-4"
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d228.12321980078724!2d90.39404669780448!3d23.819611872677815!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c72c9f33d029%3A0xa3f8db27eb6c1f0f!2sProshanti%20Homepathy%20Centre!5e0!3m2!1sen!2sbd!4v1729517664009!5m2!1sen!2sbd"
