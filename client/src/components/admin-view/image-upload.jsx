@@ -40,13 +40,17 @@ const ProductImageUpload = ({
 
   const uploadImageToCloudinary = async () => {
     setImageLoadingState(true);
+    const token = JSON.parse(sessionStorage.getItem("token"));
     const data = new FormData();
     data.append("image", imageFile);
     const response = await axios.post(
       `${import.meta.env.VITE_API_URL}/api/admin/product/upload-image`,
       data,
       {
-        headers: { "Content-Type": "multipart/form-data" },
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
       }
     );
 
@@ -67,7 +71,9 @@ const ProductImageUpload = ({
 
   return (
     <div className={`w-full ${isCustomStyling ? "" : "max-w-md mx-auto"}`}>
-      <Label className="text-lg font-semibold mb-2 block">Upload Image</Label>
+      <Label className="sm:text-lg font-semibold mb-2 block">
+        Upload Image
+      </Label>
       <div
         onDragOver={handleDragOver}
         onDrop={handleDrop}
@@ -86,7 +92,7 @@ const ProductImageUpload = ({
             htmlFor="image-upload"
             className={`${
               isEditMode ? "cursor-not-allowed" : "cursor-pointer"
-            } flex flex-col items-center justify-center h-32`}
+            } flex flex-col items-center justify-center sm:h-32 h-fit`}
           >
             <UploadCloudIcon className="w-10 h-10 text-muted-forground mb-2" />
             <span>Drag & drop or click to upload image</span>

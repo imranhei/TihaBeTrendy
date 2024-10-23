@@ -9,6 +9,11 @@ const getBusinessSummary = async (req, res) => {
     const totalProducts = products.length;
     const totalOrders = orders.length;
     const totalRevenue = orders.reduce((acc, curr) => acc + curr.totalPrice, 0);
+    const totalInvestment = products.reduce(
+      (acc, curr) => acc + curr.totalPurchaseCost,
+      0
+    );
+    const totalEarnings = totalRevenue - totalInvestment;
 
     res.status(200).json({
       success: true,
@@ -16,6 +21,8 @@ const getBusinessSummary = async (req, res) => {
         totalProducts,
         totalOrders,
         totalRevenue,
+        totalInvestment,
+        totalEarnings,
       },
     });
   } catch (error) {

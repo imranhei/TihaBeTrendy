@@ -25,11 +25,11 @@ const AdminProductTile = ({
           </div>
           <div className="flex sm:text-base text-sm justify-between items-center">
             <span>Category : {product?.category}</span>
-            <span>Stock : {product?.stock}</span>
+            <span>Price : {product?.price}</span>
           </div>
           <div className="flex justify-between items-center sm:text-base text-sm">
-            <span>Price : ${product?.price}</span>
-            <span>P. Price : ${product?.purchasePrice}</span>
+            <span>Unit Cost : ${product?.unitPurchaseCost}</span>
+            <span>Total Cost : ${product?.totalPurchaseCost}</span>
           </div>
           <div className="flex justify-between sm:text-base text-sm">
             <span>
@@ -40,6 +40,7 @@ const AdminProductTile = ({
                 year: "numeric",
               })}
             </span>
+            <span>Stock : {product?.stock}</span>
           </div>
         </CardContent>
         <CardFooter className="flex justify-between items-center absolute bottom-0 w-full">

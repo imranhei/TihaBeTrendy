@@ -1,4 +1,4 @@
-import BusinessReport from "@/components/admin-view/BusinessReport";
+import BusinessReport from "@/components/admin-view/business-report";
 import { Separator } from "@/components/ui/separator";
 import { BadgeDollarSign, HandCoins, ShoppingCart } from "lucide-react";
 import React, { useEffect } from "react";
@@ -53,7 +53,7 @@ const AdminDashboard = () => {
         </div>
         <div className="flex flex-col text-right font-semibold text-muted-foreground">
           <span className="text-xl">Monthly Earning</span>
-          <span className="text-3xl">${1234}</span>
+          <span className="text-3xl">${dashboardData?.totalEarnings || "--"}</span>
         </div>
       </div>
       <div className="shadow-md bg-background w-72 h-40 rounded-lg p-6 flex items-center justify-between">
@@ -62,7 +62,7 @@ const AdminDashboard = () => {
         </div>
         <div className="flex flex-col text-right font-semibold text-muted-foreground">
           <span className="text-xl">Total Invest</span>
-          <span className="text-3xl">${1234}</span>
+          <span className="text-3xl">${dashboardData?.totalInvestment || "--"}</span>
         </div>
       </div>
       <Separator />

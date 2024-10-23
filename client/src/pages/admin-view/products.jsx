@@ -21,6 +21,7 @@ import CommonForm from "@/components/common/form";
 import AdminProductTile from "@/components/admin-view/product-tile";
 import { CirclePlus, LayoutGrid, LayoutList } from "lucide-react";
 import AdminProductList from "@/components/admin-view/product-list";
+import ProductUpdateForm from "@/components/admin-view/product-update-form";
 
 const initialFormData = {
   image: null,
@@ -28,9 +29,10 @@ const initialFormData = {
   title: "",
   category: "",
   price: "",
-  salePrice: "",
+  unitPurchaseCost: "",
+  totalPurchaseCost: "",
   stock: "",
-  purchasePrice: "",
+  // variants: [],
   date: "",
 };
 
@@ -48,7 +50,7 @@ const AdminProducts = () => {
 
   // console.log(formData);
   const onSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault(); 
 
     currentEditedId !== null
       ? dispatch(updateProduct({ id: currentEditedId, formData })).then(
@@ -73,7 +75,7 @@ const AdminProducts = () => {
             dispatch(fetchAllProducts());
             setImageFile(null);
             setFormData(initialFormData);
-            // setUploadedImageUrl("");
+            setUploadedImageUrl("");
             toast({
               title: "Product Added Successfully",
             });
@@ -83,7 +85,7 @@ const AdminProducts = () => {
 
   const handleDelete = (id) => {
     dispatch(deleteProduct(id)).then((data) => {
-      if (data.payload?.success) {
+      if (data?.payload?.success) {
         dispatch(fetchAllProducts());
         toast({
           title: "Product Deleted Successfully",
@@ -92,12 +94,6 @@ const AdminProducts = () => {
     });
   };
 
-  // const isFormValid = () => {
-  //   return Object.keys(formData)
-  //     .map((key) => formData[key] !== "")
-  //     .every((item) => item);
-  // };
-
   useEffect(() => {
     dispatch(fetchAllProducts());
   }, [dispatch]);
@@ -105,11 +101,17 @@ const AdminProducts = () => {
   return (
     <div className="flex flex-col space-y-6 flex-1">
       <div className="flex sm:gap-4 gap-2 justify-end">
-        <Button className="p-3 sm:p-4 shadow-md" onClick={() => setView("card")}>
+        <Button
+          className="p-3 sm:p-4 shadow-md"
+          onClick={() => setView("card")}
+        >
           <LayoutGrid size={20} />
           <p className="sm:ml-2 sm:block hidden">Card View</p>
         </Button>
-        <Button className="p-3 sm:p-4 shadow-md" onClick={() => setView("list")}>
+        <Button
+          className="p-3 sm:p-4 shadow-md"
+          onClick={() => setView("list")}
+        >
           <LayoutList size={20} />
           <p className="sm:ml-2 sm:block hidden">List View</p>
         </Button>
@@ -127,30 +129,30 @@ const AdminProducts = () => {
 
       {/* Display product tiles */}
       <div className="flex flex-wrap justify-center gap-6">
-        {productList && productList.length > 0 && view === "card"
-          ? productList.map((product) => (
-              <AdminProductTile
-                key={product._id}
-                product={product}
-                setCurrentEditedId={setCurrentEditedId}
-                setFormData={setFormData}
-                handleDelete={handleDelete}
-                setIsDialogOpen={setIsDialogOpen}
-              />
-            ))
-          : productList && productList.length > 0 && view === "list"
-          ? <AdminProductList
-              productList={productList}
+        {productList && productList.length > 0 && view === "card" ? (
+          productList.map((product) => (
+            <AdminProductTile
+              key={product._id}
+              product={product}
               setCurrentEditedId={setCurrentEditedId}
               setFormData={setFormData}
               handleDelete={handleDelete}
               setIsDialogOpen={setIsDialogOpen}
             />
-           : (
-              <div className="flex justify-center items-center w-full h-96">
-                <p className="text-xl font-semibold">No Products Found</p>
-              </div>
-            )}
+          ))
+        ) : productList && productList.length > 0 && view === "list" ? (
+          <AdminProductList
+            productList={productList}
+            setCurrentEditedId={setCurrentEditedId}
+            setFormData={setFormData}
+            handleDelete={handleDelete}
+            setIsDialogOpen={setIsDialogOpen}
+          />
+        ) : (
+          <div className="flex justify-center items-center w-full h-96">
+            <p className="text-xl font-semibold">No Products Found</p>
+          </div>
+        )}
       </div>
 
       <Dialog
@@ -178,14 +180,21 @@ const AdminProducts = () => {
             imageLoadingState={imageLoadingState}
             isEditMode={currentEditedId !== null}
           />
-          <div className="py-4">
-            <CommonForm
+          <div className="sm:py-4 py-0">
+            {/* <CommonForm
               onSubmit={onSubmit}
               formData={formData}
               setFormData={setFormData}
               formControls={adddProductFormElements}
               buttonText={currentEditedId !== null ? "Update" : "Add"}
               // isButtonDisable={!isFormValid()}
+            /> */}
+            <ProductUpdateForm
+              onSubmit={onSubmit}
+              formData={formData}
+              setFormData={setFormData}
+              buttonText={currentEditedId !== null ? "Update" : "Add"}
+              isButtonDisable={false}
             />
           </div>
         </DialogContent>

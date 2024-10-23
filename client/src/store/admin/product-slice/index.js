@@ -88,7 +88,7 @@ export const deleteProduct = createAsyncThunk(
         },
       }
     );
-    return response.message;
+    return response.data;
   }
 );
 

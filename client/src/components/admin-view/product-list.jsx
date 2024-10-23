@@ -8,7 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Pencil, Trash2 } from "lucide-react";
+import { ArrowUp, Pencil, Trash2 } from "lucide-react";
 import { Button } from "../ui/button";
 
 const AdminProductList = ({
@@ -28,7 +28,9 @@ const AdminProductList = ({
             <TableHead>Title</TableHead>
             <TableHead>Category</TableHead>
             <TableHead>Price</TableHead>
-            <TableHead>P. Price</TableHead>
+            <TableHead>Profit</TableHead>
+            <TableHead>Unit Cost</TableHead>
+            <TableHead>Total Cost</TableHead>
             <TableHead>Stock</TableHead>
             <TableHead>P. Date</TableHead>
             <TableHead className="text-center min-w-16">Action</TableHead>
@@ -48,7 +50,16 @@ const AdminProductList = ({
               <TableCell>{product?.title}</TableCell>
               <TableCell>{product?.category}</TableCell>
               <TableCell>{product?.price}</TableCell>
-              <TableCell>{product?.purchasePrice}</TableCell>
+              <TableCell className="flex items-center gap-1">
+                {(
+                  ((product?.price - product?.unitPurchaseCost) /
+                    product?.price) *
+                  100
+                ).toFixed(2)}
+                % <ArrowUp size={16} className="text-green-500" />
+              </TableCell>
+              <TableCell>{product?.unitPurchaseCost}</TableCell>
+              <TableCell>{product?.totalPurchaseCost}</TableCell>
               <TableCell>{product?.stock}</TableCell>
               <TableCell>
                 {new Date(product?.date).toLocaleDateString("en-GB", {
