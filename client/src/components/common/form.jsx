@@ -9,8 +9,9 @@ import {
   SelectContent,
   SelectValue,
 } from "../ui/select";
-import { Eye } from "lucide-react";
+import { Eye, EyeOff, RotateCw } from "lucide-react";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
 const CommonForm = ({
   formControls,
@@ -18,6 +19,8 @@ const CommonForm = ({
   setFormData,
   onSubmit,
   buttonText,
+  loadingText,
+  isLoading,
   isButtonDisable,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -34,7 +37,11 @@ const CommonForm = ({
               name={controlItem.name}
               placeholder={controlItem.placeholder}
               id={controlItem.name}
-              type={controlItem.type === "password" && showPassword ? "text" : controlItem.type}
+              type={
+                controlItem.type === "password" && showPassword
+                  ? "text"
+                  : controlItem.type
+              }
               value={value}
               onChange={(e) => {
                 setFormData({
@@ -43,7 +50,18 @@ const CommonForm = ({
                 });
               }}
             />
-            {controlItem.type === "password" && <Eye onClick={() => setShowPassword(!showPassword)} className="absolute h-4 w-4 text-muted-foreground hover:text-primary cursor-pointer top-1/2 right-2 transform -translate-y-1/2" />}
+            {controlItem.type === "password" &&
+              (showPassword ? (
+                <Eye
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute h-4 w-4 text-muted-foreground hover:text-primary cursor-pointer top-1/2 right-2 transform -translate-y-1/2"
+                />
+              ) : (
+                <EyeOff
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute h-4 w-4 text-muted-foreground hover:text-primary cursor-pointer top-1/2 right-2 transform -translate-y-1/2"
+                />
+              ))}
           </div>
         );
         break;
@@ -110,15 +128,31 @@ const CommonForm = ({
         {formControls.map((controlItem, index) => {
           return (
             <div key={controlItem.name} className="grid w-full gap-1.5">
-              <Label className="mb-1">{controlItem.label}</Label>
+              <Label className="mb-1">
+                {controlItem.label}{" "}
+                {controlItem.required && (
+                  <span className="text-red-500">*</span>
+                )}
+              </Label>
               {renderInputsByComponentType(controlItem, index)}
             </div>
           );
         })}
       </div>
-      <Button disabled={isButtonDisable} type="submit" className="mt-4 w-full">
-        {buttonText || "Submit"}
-      </Button>
+      {!isLoading ? (
+        <Button
+          disabled={isButtonDisable}
+          type="submit"
+          className="mt-4 w-full"
+        >
+          {buttonText || "Submit"}
+        </Button>
+      ) : (
+        <Button disabled className="mt-4 w-full">
+          <RotateCw className="mr-2 h-4 w-4 animate-spin" />
+          {loadingText || "Submitting..."}
+        </Button>
+      )}
     </form>
   );
 };

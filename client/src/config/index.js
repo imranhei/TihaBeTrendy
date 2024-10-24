@@ -139,11 +139,52 @@ export const adddProductFormElements = [
 
 export const addOrderFormElements = [
   {
+    label: "Order ID",
+    name: "orderId",
+    componentType: "input",
+    type: "text",
+    placeholder: "Enter Order ID",
+    required: false,
+  },
+  {
+    label: "Customer ID",
+    name: "id",
+    componentType: "input",
+    type: "text",
+    placeholder: "Enter Customer ID",
+    required: false,
+  },
+  {
+    label: "Customer Name",
+    name: "name",
+    componentType: "input",
+    type: "text",
+    placeholder: "Enter Customer Name",
+    required: false,
+  },
+  {
+    label: "Customer Phone",
+    name: "phone",
+    componentType: "input",
+    type: "text",
+    placeholder: "Enter Customer Phone",
+    required: false,
+  },
+  {
+    label: "Customer Address",
+    name: "address",
+    componentType: "input",
+    type: "text",
+    placeholder: "Enter Customer Address",
+    required: false,
+  },
+  {
     label: "Product ID",
     name: "productId",
     componentType: "input",
     type: "text",
     placeholder: "Enter Product ID",
+    required: true,
   },
   {
     label: "Quantity",
@@ -151,13 +192,23 @@ export const addOrderFormElements = [
     componentType: "input",
     type: "number",
     placeholder: "Enter Quantity",
+    required: true,
   },
   {
-    label: "Price",
-    name: "price",
+    label: "Unit Price",
+    name: "unitPrice",
     componentType: "input",
     type: "number",
     placeholder: "Enter Unit Price",
+    required: true,
+  },
+  {
+    label: "Total Price",
+    name: "totalPrice",
+    componentType: "input",
+    type: "number",
+    placeholder: "Enter Total Price",
+    required: true,
   },
   {
     label: "Date",
@@ -165,6 +216,7 @@ export const addOrderFormElements = [
     componentType: "input",
     type: "date",
     placeholder: "Enter Date",
+    required: false,
   },
 ];
 

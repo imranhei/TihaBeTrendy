@@ -61,6 +61,7 @@ const registerSuperAdmin = async (req, res) => {
 
 
 const isAdmin = (req, res, next) => {
+  console.log("hiit")
   if (req.user.role !== "admin" && req.user.role !== "super-admin") {
     return res.status(403).json({ error: "Access denied. Admin or super admin required." });
   }
@@ -168,7 +169,7 @@ const logout = async (req, res) => {
 const authMiddleware = async (req, res, next) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
-
+  console.log(token);
   if (!token) {
     return res.status(401).json({
       success: false,

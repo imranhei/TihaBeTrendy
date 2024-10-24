@@ -14,6 +14,7 @@ import {
   ShieldPlus,
   CircleUser,
   FilePenLine,
+  NotepadText,
 } from "lucide-react";
 import {
   Sheet,
@@ -22,6 +23,7 @@ import {
   SheetTitle,
   SheetDescription,
 } from "@/components/ui/sheet";
+import path from "path";
 
 const adminSidebarMenuItems = [
   {
@@ -55,12 +57,6 @@ const adminSidebarMenuItems = [
     icon: <FileChartColumnIncreasing size={20} />,
     submenu: [
       {
-        id: "delivery",
-        label: "Delivery",
-        path: "/admin/delivery",
-        icon: <Truck size={20} />,
-      },
-      {
         id: "orders",
         label: "Orders",
         path: "/admin/orders",
@@ -71,6 +67,12 @@ const adminSidebarMenuItems = [
         label: "Other Cost",
         path: "/admin/other-cost",
         icon: <ShieldPlus size={20} />
+      },
+      {
+        id: "sales-history",
+        label: "Sales History",
+        path: "/admin/sales-history",
+        icon: <NotepadText size={20} />
       }
     ],
   },

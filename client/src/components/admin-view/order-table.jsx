@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Pencil, Trash2 } from "lucide-react";
+import { Eye, Pencil, Trash2, Truck } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -27,7 +27,9 @@ const AdminOrderTable = ({
   setIsDialogOpen,
   setIsModalOpen,
   isModalOpen,
-  handleDelete
+  handleDelete,
+  handleStatusChange,
+  statusField
 }) => {
   const [deleteId, setDeleteId] = useState(null);
 
@@ -37,22 +39,31 @@ const AdminOrderTable = ({
         <TableHeader>
           <TableRow className="p-0 text-nowrap">
             <TableHead>Product Id</TableHead>
+            <TableHead>Order Id</TableHead>
+            {/* <TableHead>Customer Name</TableHead> */}
+            {/* <TableHead>Unit Price</TableHead> */}
+            <TableHead>Total Price</TableHead>
             <TableHead>Quantity</TableHead>
-            <TableHead>Price</TableHead>
-            <TableHead>Total</TableHead>
             <TableHead>Date</TableHead>
-            <TableHead className="w-40 text-center">Action</TableHead>
+            {statusField && <TableHead className="w-20 text-center">Status</TableHead>}
+            <TableHead className="w-20 text-center">Action</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {orderList?.map((order, index) => (
             <TableRow key={index}>
               <TableCell>{order?.productId}</TableCell>
+              <TableCell>{order?.orderId}</TableCell>
+              {/* <TableCell>{order?.customer?.name}</TableCell> */}
+              {/* <TableCell>{order?.unitPrice}</TableCell> */}
+              <TableCell>{order?.unitPrice * order?.quantity}</TableCell>
               <TableCell>{order?.quantity}</TableCell>
-              <TableCell>{order?.price}</TableCell>
-              <TableCell>{order?.totalPrice}</TableCell>
               <TableCell className="text-nowrap">{order?.date}</TableCell>
-              <TableCell className="flex justify-center gap-2">
+              <TableCell className="!p-1">
+                <Button onClick={() => handleStatusChange(order?._id)} className="gap-2"><Truck size={20} /> Delivered</Button>
+              </TableCell>
+              <TableCell className="flex justify-center gap-2 mt-1">
+                <Eye size={20} className="text-blue-500" />
                 <Pencil
                   onClick={() => {
                     setFormData(order);
@@ -76,11 +87,8 @@ const AdminOrderTable = ({
         </TableBody>
         <TableFooter>
           <TableRow>
-            <TableCell className="py-4" colSpan={3}>
-              Total
-            </TableCell>
-            <TableCell className="py-4" colSpan={3}>
-              $2,500.00
+            <TableCell className="py-4" colSpan={8}>
+              Orders 1 - {orderList?.length > 10 ? "10" : orderList?.length} of {orderList?.length}
             </TableCell>
           </TableRow>
         </TableFooter>
@@ -96,7 +104,7 @@ const AdminOrderTable = ({
           <DialogHeader>
             <DialogTitle>Confirm Delete?</DialogTitle>
             <DialogDescription>
-              Are you sure you want to delete this order?
+              Are you sure you want to delete this? It will update your product stock.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="flex flex-row flex-wrap justify-center sm:gap-6 gap-4">

@@ -6,6 +6,7 @@ const cors = require("cors");
 const authRoutes = require("./routes/auth/auth-routes");
 const productRoutes = require("./routes/admin/product-routes");
 const orderRoutes = require("./routes/admin/order-routes");
+const salesRoutes = require("./routes/admin/sale-routes");
 const adminUserRoutes = require("./routes/admin/user-routes");
 const businessSummaryRoutes = require("./routes/admin/business-summary-routes");
 
@@ -39,6 +40,7 @@ app.use("/api/admin/product", productRoutes);
 app.use("/api/admin/order", orderRoutes);
 app.use("/api/admin/user", adminUserRoutes);
 app.use("/api/admin", businessSummaryRoutes);
+app.use("/api/admin/sale", salesRoutes);
 
 app.use("/api/user/product", userProductRoutes);
 

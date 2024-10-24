@@ -67,6 +67,24 @@ export const deleteOrder = createAsyncThunk("order/deleteOrder", async (id) => {
   return response.data;
 });
 
+export const updateOrderStatus = createAsyncThunk(
+  "order/updateOrderStatus",
+  async (id) => {
+    const token = JSON.parse(sessionStorage.getItem("token"));
+    console.log(token);
+    const response = await axios.delete(
+      `${import.meta.env.VITE_API_URL}/api/admin/order/update-order-status/${id}`,
+      {
+        headers: {
+          // "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  }
+);
+
 export const AdminOrderSlice = createSlice({
   name: "adminOrder",
   initialState,

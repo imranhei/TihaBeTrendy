@@ -194,6 +194,7 @@ const AdminProducts = () => {
               formData={formData}
               setFormData={setFormData}
               buttonText={currentEditedId !== null ? "Update" : "Add"}
+              loadingText={currentEditedId !== null ? "Updating..." : "Adding..."}
               isButtonDisable={false}
             />
           </div>

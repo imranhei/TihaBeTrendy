@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const orderSchema = new mongoose.Schema({
+const saleSchema = new mongoose.Schema({
   orderId: {
     type: String,
     trim: true,
@@ -20,7 +20,7 @@ const orderSchema = new mongoose.Schema({
     },
     address: {
       type: String,
-      trim: true,
+      trim: true
     },
   },
   productId: {
@@ -37,8 +37,8 @@ const orderSchema = new mongoose.Schema({
     required: true,
   },
   totalPrice: {
-    type: Number,
-    required: true,
+      type: Number,
+      required: true,
   },
   date: {
     type: String,
@@ -51,4 +51,4 @@ const orderSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("Order", orderSchema);
+module.exports = mongoose.model("Sale", saleSchema);

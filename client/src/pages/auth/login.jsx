@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import CommonForm from "../../components/common/form";
 import { loginFormControls } from "@/config";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "@/store/auth-slice";
 import { useToast } from "../../hooks/use-toast"
 import { ArrowLeft } from "lucide-react";
@@ -14,8 +14,8 @@ const initialState = {
 
 const AuthLogin = () => {
   const [formData, setFormData] = useState(initialState);
-  const [passwordVisible, setPasswordVisible] = useState(false);
   const dispatch = useDispatch();
+  const { isLoading } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const {toast} = useToast();
 
@@ -74,9 +74,11 @@ const AuthLogin = () => {
       <CommonForm
         formControls={loginFormControls}
         buttonText={"Sign In"}
+        loadingText={"Signing In..."}
         formData={formData}
         setFormData={setFormData}
         onSubmit={onSubmit}
+        isLoading={isLoading}
       />
     </div>
   );

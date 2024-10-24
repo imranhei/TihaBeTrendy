@@ -24,6 +24,7 @@ import Profile from "./pages/admin-view/profile";
 import AdminAnalytics from "./pages/admin-view/analytics";
 import Contact from "./pages/user-view/contact";
 import OtherCost from "./pages/admin-view/other-cost";
+import SalesHistory from "./pages/admin-view/sales-history";
 
 function App() {
   const { isAuthenticated, user, isLoading } = useSelector(
@@ -32,25 +33,34 @@ function App() {
   const dispatch = useDispatch();
 
   // console.log(isAuthenticated, user, isLoading);
-  
+
   useEffect(() => {
-    const token = JSON.parse(sessionStorage.getItem("token")); //if i don't have any subdomain pass this token
-    dispatch(checkAuth(token));
+    const token = sessionStorage.getItem("token"); //if i don't have any subdomain pass this token
+    if (token) {
+      try {
+        const parsedToken = JSON.parse(token);
+        dispatch(checkAuth(parsedToken));
+      } catch (error) {
+        console.error("Error parsing token:", error);
+      }
+    } else {
+      console.warn("No token found in sessionStorage");
+    }
   }, [dispatch]);
-  
-  if(isLoading){
-    return (
-      <div className="flex items-center justify-center min-w-screen min-h-screen">
-        <div className="flex flex-col space-y-3">
-          <Skeleton className="h-[125px] w-[250px] rounded-xl" />
-          <div className="space-y-2">
-            <Skeleton className="h-4 w-[250px]" />
-            <Skeleton className="h-4 w-[200px]" />
-          </div>
-        </div>
-      </div>
-    );
-  }
+
+  // if(isLoading){
+  //   return (
+  //     <div className="flex items-center justify-center min-w-screen min-h-screen">
+  //       <div className="flex flex-col space-y-3">
+  //         <Skeleton className="h-[125px] w-[250px] rounded-xl" />
+  //         <div className="space-y-2">
+  //           <Skeleton className="h-4 w-[250px]" />
+  //           <Skeleton className="h-4 w-[200px]" />
+  //         </div>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="flex flex-col overflow-hidden bg-muted">
@@ -97,6 +107,7 @@ function App() {
           <Route path="profile" element={<Profile />} />
           <Route path="dashboard/analytics" element={<AdminAnalytics />} />
           <Route path="other-cost" element={<OtherCost />} />
+          <Route path="sales-history" element={<SalesHistory />} />
         </Route>
 
         {/* Public shop routes for users and unauthenticated visitors */}

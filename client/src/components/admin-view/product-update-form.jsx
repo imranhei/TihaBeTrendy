@@ -10,6 +10,8 @@ import {
 } from "../ui/select";
 import { Checkbox } from "../ui/checkbox";
 import { Button } from "../ui/button";
+import { useSelector } from "react-redux";
+import { RotateCw } from "lucide-react";
 
 const options = [
   { id: "bag", label: "Bag" },
@@ -28,9 +30,11 @@ const ProductUpdateForm = ({
   formData,
   setFormData,
   buttonText,
+  loadingText,
   isButtonDisable,
 }) => {
-//   const [hasVariants, setHasVariants] = useState(false);
+  //   const [hasVariants, setHasVariants] = useState(false);
+  const { isLoading } = useSelector((state) => state.adminProducts);
 
   const handleInputChange = (e) => {
     setFormData({
@@ -39,21 +43,21 @@ const ProductUpdateForm = ({
     });
   };
 
-//   const handleVariantChange = (index, e) => {
-//     const updatedVariants = [...formData.variants];
-//     updatedVariants[index][e.target.name] = e.target.value;
-//     setFormData({
-//       ...formData,
-//       variants: updatedVariants,
-//     });
-//   };
+  //   const handleVariantChange = (index, e) => {
+  //     const updatedVariants = [...formData.variants];
+  //     updatedVariants[index][e.target.name] = e.target.value;
+  //     setFormData({
+  //       ...formData,
+  //       variants: updatedVariants,
+  //     });
+  //   };
 
-//   const addVariant = () => {
-//     setFormData({
-//       ...formData,
-//       variants: [...formData.variants, { color: "", size: "", stock: 0 }],
-//     });
-//   };
+  //   const addVariant = () => {
+  //     setFormData({
+  //       ...formData,
+  //       variants: [...formData.variants, { color: "", size: "", stock: 0 }],
+  //     });
+  //   };
 
   return (
     <form onSubmit={onSubmit}>
@@ -252,30 +256,41 @@ const ProductUpdateForm = ({
           </div>
         ) : null} */}
         <div className="flex sm:gap-4 gap-2">
-            <div className="grid flex-1 gap-1.5">
-              <Label>Stock</Label>
-              <Input
-                type="number"
-                name="stock"
-                placeholder="Enter Stock"
-                value={formData.stock}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="grid flex-1 gap-1.5">
-              <Label>Date</Label>
-              <Input
-                type="date"
-                name="date"
-                value={formData.date}
-                onChange={handleInputChange}
-              />
-            </div>
+          <div className="grid flex-1 gap-1.5">
+            <Label>Stock</Label>
+            <Input
+              type="number"
+              name="stock"
+              placeholder="Enter Stock"
+              value={formData.stock}
+              onChange={handleInputChange}
+            />
           </div>
+          <div className="grid flex-1 gap-1.5">
+            <Label>Date</Label>
+            <Input
+              type="date"
+              name="date"
+              value={formData.date}
+              onChange={handleInputChange}
+            />
+          </div>
+        </div>
       </div>
-      <Button disabled={isButtonDisable} type="submit" className="mt-4 w-full">
-        {buttonText || "Submit"}
-      </Button>
+      {!isLoading ? (
+        <Button
+          disabled={isButtonDisable}
+          type="submit"
+          className="mt-4 w-full"
+        >
+          {buttonText || "Submit"}
+        </Button>
+      ) : (
+        <Button disabled className="mt-4 w-full">
+          <RotateCw className="mr-2 h-4 w-4 animate-spin" />
+          {loadingText || "Submitting..."}
+        </Button>
+      )}
     </form>
   );
 };
