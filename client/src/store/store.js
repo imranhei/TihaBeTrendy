@@ -5,6 +5,7 @@ import adminOrderSlice  from "./admin/order-slice";
 import adminUserSlice from "./admin/user-slice";
 import businessSummary from "./admin/dashboard-slice";
 import adminSaleSlice from "./admin/sale-slice";
+import adminOtherCostSlice from "./admin/other-cost-slice";
 
 import userProductSlice from "./user/product-slice";
 
@@ -17,6 +18,7 @@ const store = configureStore({
         userProducts: userProductSlice,
         businessSummary: businessSummary,
         adminSales: adminSaleSlice,
+        adminOtherCosts: adminOtherCostSlice
     }
 });
 

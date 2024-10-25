@@ -233,7 +233,7 @@ const updateOrderStatus = async (req, res) => {
       quantity: order.quantity,
       unitPrice: order.unitPrice,
       totalPrice: order.totalPrice,
-      date: new Date(),
+      date: new Date().toISOString().split("T")[0],
     });
     await sale.save({ session });
 

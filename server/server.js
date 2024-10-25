@@ -9,6 +9,7 @@ const orderRoutes = require("./routes/admin/order-routes");
 const salesRoutes = require("./routes/admin/sale-routes");
 const adminUserRoutes = require("./routes/admin/user-routes");
 const businessSummaryRoutes = require("./routes/admin/business-summary-routes");
+const otherCostRoutes = require("./routes/admin/other-cost-routes");
 
 const userProductRoutes = require("./routes/user/product-routes");
 
@@ -41,6 +42,7 @@ app.use("/api/admin/order", orderRoutes);
 app.use("/api/admin/user", adminUserRoutes);
 app.use("/api/admin", businessSummaryRoutes);
 app.use("/api/admin/sale", salesRoutes);
+app.use("/api/admin/other-cost", otherCostRoutes);
 
 app.use("/api/user/product", userProductRoutes);
 

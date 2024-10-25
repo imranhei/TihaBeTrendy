@@ -29,9 +29,28 @@ const AdminOrderTable = ({
   isModalOpen,
   handleDelete,
   handleStatusChange,
-  statusField
+  statusField,
+  deleteText = "",
 }) => {
-  const [deleteId, setDeleteId] = useState(null);
+  const [modalType, setModalType] = useState(""); // New state for modal type
+  const [modalText, setModalText] = useState("");
+  const [actionId, setActionId] = useState(null);
+
+  const handleOpenModal = (type, id, text) => {
+    setModalType(type);
+    setActionId(id);
+    setModalText(text);
+    setIsModalOpen(true);
+  };
+
+  const handleModalAction = () => {
+    if (modalType === "delete") {
+      handleDelete(actionId);
+    } else if (modalType === "statusChange") {
+      handleStatusChange(actionId);
+    }
+    setIsModalOpen(false);
+  };
 
   return (
     <div className="bg-white flex-1 sm:p-6 p-4 shadow-md rounded-md">
@@ -45,7 +64,9 @@ const AdminOrderTable = ({
             <TableHead>Total Price</TableHead>
             <TableHead>Quantity</TableHead>
             <TableHead>Date</TableHead>
-            {statusField && <TableHead className="w-20 text-center">Status</TableHead>}
+            {statusField && (
+              <TableHead className="min-w-20 text-center">Status</TableHead>
+            )}
             <TableHead className="w-20 text-center">Action</TableHead>
           </TableRow>
         </TableHeader>
@@ -59,10 +80,26 @@ const AdminOrderTable = ({
               <TableCell>{order?.unitPrice * order?.quantity}</TableCell>
               <TableCell>{order?.quantity}</TableCell>
               <TableCell className="text-nowrap">{order?.date}</TableCell>
-              <TableCell className="!p-1">
-                <Button onClick={() => handleStatusChange(order?._id)} className="gap-2"><Truck size={20} /> Delivered</Button>
-              </TableCell>
-              <TableCell className="flex justify-center gap-2 mt-1">
+              {statusField && (
+                <TableCell className="!p-1 group">
+                  <Button
+                     onClick={() =>
+                      handleOpenModal("statusChange", order?._id, "Are you sure you want to mark this as Delivered?")
+                    }
+                    className="gap-2 text-xs flex items-center transition-transform duration-300 mx-auto"
+                    size="xs"
+                  >
+                    <Truck
+                      size={16}
+                      className="transform transition-transform ease-in-out duration-500 group-hover:translate-x-[60px]"
+                    />
+                    <span className="transform transition-transform duration-300 group-hover:-translate-x-6">
+                      Delivered
+                    </span>
+                  </Button>
+                </TableCell>
+              )}
+              <TableCell className="flex justify-center gap-2">
                 <Eye size={20} className="text-blue-500" />
                 <Pencil
                   onClick={() => {
@@ -74,10 +111,9 @@ const AdminOrderTable = ({
                   className="text-green-500"
                 />
                 <Trash2
-                  onClick={() => {
-                    setIsModalOpen(true);
-                    setDeleteId(order?._id);
-                  }}
+                  onClick={() =>
+                    handleOpenModal("delete", order?._id, "Are you sure you want to delete this order?")
+                  }
                   size={20}
                   className="text-red-500"
                 />
@@ -88,23 +124,25 @@ const AdminOrderTable = ({
         <TableFooter>
           <TableRow>
             <TableCell className="py-4" colSpan={8}>
-              Orders 1 - {orderList?.length > 10 ? "10" : orderList?.length} of {orderList?.length}
+              Orders 1 - {orderList?.length > 10 ? "10" : orderList?.length} of{" "}
+              {orderList?.length}
             </TableCell>
           </TableRow>
         </TableFooter>
       </Table>
+      
       <Dialog
         open={isModalOpen}
         onOpenChange={() => {
           setIsModalOpen(false);
-          setDeleteId(null);
+          setActionId(null);
         }}
       >
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Confirm Delete?</DialogTitle>
+            <DialogTitle>{modalType === "delete" ? "Confirm Delete?" : "Confirm Status Change"}</DialogTitle>
             <DialogDescription>
-              Are you sure you want to delete this? It will update your product stock.
+              {modalText} {deleteText}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="flex flex-row flex-wrap justify-center sm:gap-6 gap-4">
@@ -113,8 +151,13 @@ const AdminOrderTable = ({
                 Close
               </Button>
             </DialogClose>
-            <Button className="sm:w-32 w-24" onClick={() => handleDelete(deleteId)} type="button" variant="destructive">
-              Delete
+            <Button
+              className="sm:w-32 w-24"
+              onClick={handleModalAction}
+              type="button"
+              variant="destructive"
+            >
+              {modalType === "delete" ? "Delete" : "Confirm"}
             </Button>
           </DialogFooter>
         </DialogContent>

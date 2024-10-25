@@ -6,7 +6,6 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { useDispatch, useSelector } from "react-redux";
 import { addOrderFormElements } from "@/config";
@@ -109,7 +108,7 @@ const AdminOrders = () => {
   }, [dispatch]);
 
   return (
-    <div className="flex flex-col space-y-6 flex-1relative">
+    <div className="flex flex-col space-y-6 flex-1">
       <Button
         className="underline-effect overflow-hidden hover:bg-white rounded-sm hover:text-violet-700 shadow-md shadow-violet-300 w-fit p-3 sm:p-4"
         onClick={() => {

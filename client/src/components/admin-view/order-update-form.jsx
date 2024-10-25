@@ -40,13 +40,13 @@ const OrderUpdateForm = ({
   return (
     <form onSubmit={onSubmit}>
       <div className="flex flex-col gap-3">
-        <div className="flex  sm:gap-4 gap-2">
+        <div className="flex sm:gap-4 gap-2">
           <div className="grid w-full gap-1.5">
             <Label>Order ID</Label>
             <Input
               type="text"
               name="orderId"
-              value={formData.orderId}
+              value={formData?.orderId}
               onChange={handleInputChange}
               placeholder="Enter Order ID"
             />
@@ -56,7 +56,7 @@ const OrderUpdateForm = ({
             <Input
               type="text"
               name="customer.id"
-              value={formData.customer.id}
+              value={formData?.customer?.id}
               onChange={handleInputChange}
               placeholder="Enter Customer ID"
             />
@@ -69,7 +69,7 @@ const OrderUpdateForm = ({
             <Input
               type="text"
               name="customer.name"
-              value={formData.customer.name}
+              value={formData?.customer?.name}
               onChange={handleInputChange}
               placeholder="Enter Customer Name"
             />
@@ -79,7 +79,7 @@ const OrderUpdateForm = ({
             <Input
               type="text"
               name="customer.phone"
-              value={formData.customer.phone}
+              value={formData?.customer?.phone}
               onChange={handleInputChange}
               placeholder="Enter Customer Phone"
             />
@@ -92,7 +92,7 @@ const OrderUpdateForm = ({
             <Input
               type="text"
               name="customer.address"
-              value={formData.customer.address}
+              value={formData?.customer?.address}
               onChange={handleInputChange}
               placeholder="Enter Customer Address"
             />
@@ -104,7 +104,7 @@ const OrderUpdateForm = ({
             <Input
               type="text"
               name="productId"
-              value={formData.productId}
+              value={formData?.productId}
               onChange={handleInputChange}
               placeholder="Enter Product ID"
               required
@@ -120,7 +120,7 @@ const OrderUpdateForm = ({
             <Input
               type="number"
               name="quantity"
-              value={formData.quantity}
+              value={formData?.quantity}
               onChange={handleInputChange}
               placeholder="Enter Quantity"
               required
@@ -133,7 +133,7 @@ const OrderUpdateForm = ({
             <Input
               type="number"
               name="unitPrice"
-              value={formData.unitPrice}
+              value={formData?.unitPrice}
               onChange={handleInputChange}
               placeholder="Unit Price"
               required
@@ -147,7 +147,7 @@ const OrderUpdateForm = ({
               Total Amount
             </Label>
             <Label className="border rounded-md h-10 p-2 flex items-center font-normal">
-              {formData.quantity * formData.unitPrice}
+              {formData?.quantity * formData?.unitPrice}
             </Label>
           </div>
           <div className="grid w-full gap-1.5">
@@ -155,7 +155,7 @@ const OrderUpdateForm = ({
             <Input
               type="date"
               name="date"
-              value={formData.date}
+              value={formData?.date}
               onChange={handleInputChange}
               placeholder="Enter Date"
             />

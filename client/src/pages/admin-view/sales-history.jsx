@@ -81,7 +81,7 @@ const SalesHistory = () => {
     <div className="flex flex-col space-y-6 flex-1">
       <h1 className="text-center sm:text-3xl text-xl text-muted-foreground font-bold">Sales History</h1>
       <AdminOrderTable
-        salesList={salesList}
+        orderList={salesList}
         setCurrentEditedId={setCurrentEditedId}
         setFormData={setFormData}
         setIsDialogOpen={setIsDialogOpen}
@@ -89,6 +89,7 @@ const SalesHistory = () => {
         setIsModalOpen={setIsModalOpen}
         handleDelete={handleDelete}
         statusField={false}
+        deleteText="It will update your product stock."
       />
 
       <Dialog

@@ -15,6 +15,7 @@ import {
   CircleUser,
   FilePenLine,
   NotepadText,
+  SlidersHorizontal,
 } from "lucide-react";
 import {
   Sheet,
@@ -195,7 +196,7 @@ const AdminSidebar = ({ open, setOpenSidebar }) => {
           <div className="flex flex-col h-full">
             <SheetHeader className="border-b">
               <SheetTitle className="flex gap-2">
-                <ChartNoAxesCombined size={30} />
+                <SlidersHorizontal size={30} />
                 <span className="text-xl font-extrabold">Admin Panel</span>
               </SheetTitle>
               <SheetDescription></SheetDescription>
@@ -209,7 +210,7 @@ const AdminSidebar = ({ open, setOpenSidebar }) => {
           onClick={() => navigate("/admin/dashboard")}
           className="flex items-center gap-2 cursor-pointer"
         >
-          <ChartNoAxesCombined size={30} />
+          <SlidersHorizontal size={30} />
           <h1 className="text-2xl font-extrabold">Admin Panel</h1>
         </div>
         <MenuItem />

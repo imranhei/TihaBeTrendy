@@ -71,7 +71,6 @@ export const updateOrderStatus = createAsyncThunk(
   "order/updateOrderStatus",
   async (id) => {
     const token = JSON.parse(sessionStorage.getItem("token"));
-    console.log(token);
     const response = await axios.delete(
       `${import.meta.env.VITE_API_URL}/api/admin/order/update-order-status/${id}`,
       {
