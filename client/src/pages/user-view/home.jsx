@@ -15,13 +15,11 @@ const Home = () => {
 
   const createSearchParamHelper = (filterParams) => {
     if (Array.isArray(filterParams) && filterParams.length > 0) {
-      // Join the categories into a single string with commas separating each
       const paramValue = filterParams.join(",");
-      // Encode the final value and return the query parameter
       return `category=${encodeURIComponent(paramValue)}`;
     }
 
-    return ""; // If no categories are selected, return an empty string
+    return "";
   };
 
   const handleSort = (value) => {

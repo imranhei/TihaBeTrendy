@@ -8,10 +8,18 @@ const initialState = {
 
 export const fetchAllProducts = createAsyncThunk(
   "product/fetchAllProducts",
-  async () => {
+  async ({ filterParams = [], sortParams, searchParams }) => {
     const token = JSON.parse(sessionStorage.getItem("token"));
+
+    const query = new URLSearchParams();
+    if (filterParams.length > 0)
+      query.append("category", filterParams.join(","));
+    if (sortParams) query.append("sortBy", sortParams);
+    if (searchParams) query.append("search", searchParams);
     const response = await axios.get(
-      `${import.meta.env.VITE_API_URL}/api/admin/product/get-all-products`,
+      `${
+        import.meta.env.VITE_API_URL
+      }/api/admin/product/get-all-products?${query.toString()}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

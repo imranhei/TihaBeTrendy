@@ -16,7 +16,7 @@ const AdminHeader = ({ setOpenSidebar }) => {
   };
 
   return (
-    <header className="flex items-center justify-between px-4 py-2 bg-background border-b shadow-md">
+    <header className="bg-gradient-to-r from-violet-50 to-cyan-50 flex items-center justify-between px-4 py-2 bg-background border-b shadow-md">
       <div className="flex justify-between flex-1 items-center">
       <Button
         onClick={() => setOpenSidebar(true)}

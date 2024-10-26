@@ -4,8 +4,8 @@ const Product = require("../../models/Product");
 const handleImageUpload = async (req, res) => {
   try {
     if (!req.file) {
-        return res.json({ success: false, message: "No file uploaded" });
-      }
+      return res.json({ success: false, message: "No file uploaded" });
+    }
     const b64 = Buffer.from(req.file.buffer).toString("base64");
     const url = "data:" + req.file.mimetype + ";base64," + b64;
     const result = await imageUploadUtil(url, "tiha");
@@ -38,7 +38,45 @@ const addProduct = async (req, res) => {
 
 const getAllProducts = async (req, res) => {
   try {
-    const products = await Product.find({});
+    const {
+      category = "",
+      sortBy = "price-lowtohigh",
+      search = "",
+    } = req.query;
+    let filters = {};
+
+    if (category) {
+      filters.category = { $in: category.split(",") };
+    }
+
+    if (search) {
+      filters.$or = [
+        { productId: { $regex: search, $options: "i" } },
+        { title: { $regex: search, $options: "i" } },
+      ];
+    }
+
+    let sort = {};
+    switch (sortBy) {
+      case "price-lowtohigh":
+        sort = { price: 1 };
+        break;
+      case "price-hightolow":
+        sort = { price: -1 };
+        break;
+      case "title-atoz":
+        sort = { title: 1 };
+        break;
+      case "title-ztoa":
+        sort = { title: -1 };
+        break;
+      default:
+        sort = { price: 1 };
+        break;
+    }
+
+    const products = await Product.find(filters).sort(sort);
+
     res.status(201).json({ success: true, data: products });
   } catch (error) {
     console.error(error);

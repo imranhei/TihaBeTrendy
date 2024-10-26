@@ -9,7 +9,7 @@ import Home from "./pages/user-view/home";
 import NotFound from "./pages/not-found";
 import CheckAuth from "./components/common/check-auth";
 import { useDispatch, useSelector } from "react-redux";
-import { LogIn, User } from "lucide-react";
+import { LoaderCircle, LogIn, User } from "lucide-react";
 import { Skeleton } from "./components/ui/skeleton";
 import { checkAuth } from "./store/auth-slice";
 import AdminLayout from "./components/admin-view/layout";
@@ -25,9 +25,10 @@ import AdminAnalytics from "./pages/admin-view/analytics";
 import Contact from "./pages/user-view/contact";
 import OtherCost from "./pages/admin-view/other-cost";
 import SalesHistory from "./pages/admin-view/sales-history";
+import AdminCustomize from "./pages/admin-view/customize";
 
 function App() {
-  const { isAuthenticated, user, isLoading } = useSelector(
+  const { isAuthenticated, user, isLoadingAuth } = useSelector(
     (state) => state.auth
   );
   const dispatch = useDispatch();
@@ -48,23 +49,25 @@ function App() {
     }
   }, [dispatch]);
 
-  // if(isLoading){
-  //   return (
-  //     <div className="flex items-center justify-center min-w-screen min-h-screen">
-  //       <div className="flex flex-col space-y-3">
-  //         <Skeleton className="h-[125px] w-[250px] rounded-xl" />
-  //         <div className="space-y-2">
-  //           <Skeleton className="h-4 w-[250px]" />
-  //           <Skeleton className="h-4 w-[200px]" />
-  //         </div>
-  //       </div>
-  //     </div>
-  //   );
-  // }
+  if (isLoadingAuth) {
+    return (
+      // <div className="flex items-center justify-center min-w-screen min-h-screen">
+      //   <div className="flex flex-col space-y-3">
+      //     <Skeleton className="h-[125px] w-[250px] rounded-xl" />
+      //     <div className="space-y-2">
+      //       <Skeleton className="h-4 w-[250px]" />
+      //       <Skeleton className="h-4 w-[200px]" />
+      //     </div>
+      //   </div>
+      // </div>
+      <div className="flex items-center justify-center min-w-screen min-h-screen">
+        <LoaderCircle size={48} className="animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col overflow-hidden bg-muted">
-      {/* header commponent */}
       <Routes>
         {/* Root path redirection to /shop/home */}
         <Route
@@ -108,6 +111,7 @@ function App() {
           <Route path="dashboard/analytics" element={<AdminAnalytics />} />
           <Route path="other-cost" element={<OtherCost />} />
           <Route path="sales-history" element={<SalesHistory />} />
+          <Route path="customize" element={<AdminCustomize />} />
         </Route>
 
         {/* Public shop routes for users and unauthenticated visitors */}
@@ -119,7 +123,6 @@ function App() {
             </CheckAuth>
           }
         >
-          {/* Nested route for Home page */}
           <Route path="home" element={<Home />} />
           <Route path="contact" element={<Contact />} />
         </Route>
@@ -141,12 +144,6 @@ export default App;
 }
 {
   /* checkout component */
-}
-{
-  /* profile component */
-}
-{
-  /* order history component */
 }
 {
   /* order details component */

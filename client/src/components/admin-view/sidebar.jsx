@@ -1,12 +1,9 @@
 import { Fragment, useState } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import {
-  ChartNoAxesCombined,
   LayoutDashboard,
   ShoppingBasket,
   ShoppingCart,
-  BadgeDollarSign,
-  Truck,
   ChevronDown,
   Settings,
   FileChartColumnIncreasing,
@@ -32,18 +29,6 @@ const adminSidebarMenuItems = [
     label: "Dashboard",
     path: "/admin/dashboard",
     icon: <LayoutDashboard size={20} />,
-    // submenu: [
-    //   {
-    //     id: "analytics",
-    //     label: "Analytics",
-    //     path: "/admin/dashboard/analytics",
-    //   },
-    //   {
-    //     id: "summary",
-    //     label: "Summary",
-    //     path: "/admin/dashboard/summary",
-    //   },
-    // ],
   },
   {
     id: "products",

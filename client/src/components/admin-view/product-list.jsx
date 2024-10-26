@@ -89,7 +89,7 @@ const AdminProductList = ({
         </TableBody>
         <TableFooter>
           <TableRow>
-            <TableCell colSpan={9} className="text-right">
+            <TableCell colSpan={11} className="text-right">
               Showing {productList.length} products
             </TableCell>
           </TableRow>
