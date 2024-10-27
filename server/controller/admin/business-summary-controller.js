@@ -67,16 +67,7 @@ const getBusinessSummary = async (req, res) => {
     ]);
 
     // 5. Calculate Total Profit (Revenue - Investment)
-    const totalProfit = totalRevenue[0].totalRevenue - totalInvest[0].totalInvestment;
-
-    // const totalProducts = products.length;
-    // const totalOrders = orders.length;
-    // const totalRevenue = orders.reduce((acc, curr) => acc + curr.totalPrice, 0);
-    // const totalInvestment = products.reduce(
-    //   (acc, curr) => acc + curr.totalPurchaseCost,
-    //   0
-    // );
-    // const totalEarnings = totalRevenue - totalInvestment;
+    const totalProfit = totalRevenue[0]?.totalRevenue - totalInvest[0]?.totalInvestment;
 
     res.status(200).json({
       success: true,
@@ -87,10 +78,6 @@ const getBusinessSummary = async (req, res) => {
         totalInvest: totalInvest[0]?.totalInvestment || 0,
         totalProfit: totalProfit || 0,
         currentProfit: currentProfit[0]?.totalCurrentProfit || 0,
-        // totalOrders,
-        // totalRevenue,
-        // totalInvestment,
-        // totalEarnings,
       },
     });
   } catch (error) {

@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   fetchAllUsers,
   updateUser,
-  deleteUser,
 } from "@/store/admin/user-slice";
 import { deleteAccount } from "@/store/auth-slice";
 import {
@@ -29,14 +28,13 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { ArrowDownUp, Eye, Save, Trash2 } from "lucide-react";
 import { useToast } from "../../hooks/use-toast";
-import { userRoleOptions, userRoleMap } from "@/config";
+import { userRoleOptions } from "@/config";
 
 const Users = () => {
   const dispatch = useDispatch();
@@ -84,23 +82,17 @@ const Users = () => {
         setIsModalOpen(false);
         setDeleteId(null);
         toast({
-          title: "User Deleted Successfully",
+          title: "Deleted Account",
+          description: data?.payload?.message || "",
         });
       } else {
         toast({
-          title: data?.payload?.error || "Failed to Delete User",
+          title: "Request Failed",
+          description: data?.payload?.message || data?.error?.message || "Failed to Delete User",
           type: "destructive",
         });
       }
     })
-    .catch((error) => {
-      // Catch any other unforeseen errors
-      console.log("Error:", error);
-      toast({
-        title: "An unexpected error occurred",
-        type: "error",
-      });
-    });
   };
 
   const handleUpdateRole = (id, role) => {
@@ -175,7 +167,7 @@ const Users = () => {
               <TableCell className="text-nowrap">
                 {user?.createdAt.split("T")[0]}
               </TableCell>
-              <TableCell className="text-center flex gap-2 justify-center items-center lg:mt-2 sm:mt-1 mt-px">
+              <TableCell className="text-center flex gap-2 justify-center items-center  mt-2">
                 <Eye size={20} className="text-teal-500" />
                 <Trash2
                   onClick={() => {

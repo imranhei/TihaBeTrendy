@@ -11,25 +11,36 @@ const initialState = {
 
 export const registerUser = createAsyncThunk(
   "auth/registerUser",
-  async (formData) => {
-    const response = await axios.post(
-      `${import.meta.env.VITE_API_URL}/api/auth/register`,
-      formData,
-      { withCredentials: true }
-    );
-    return response.data;
+  async (formData, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/auth/register`,
+        formData,
+        { withCredentials: true }
+      );
+      return response.data;
+    } catch (error) {
+      // Capture error message from backend or default message
+      const message = error.response?.data?.message || "";
+      return rejectWithValue({ success: false, message });
+    }
   }
 );
 
 export const loginUser = createAsyncThunk(
   "auth/loginUser",
-  async (formData) => {
-    const response = await axios.post(
-      `${import.meta.env.VITE_API_URL}/api/auth/login`,
-      formData,
-      { withCredentials: true }
-    );
-    return response.data;
+  async (formData, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/auth/login`,
+        formData,
+        { withCredentials: true } // Allows cookies to be sent for session management
+      );
+      return response.data;
+    } catch (error) {
+      const message = error.response?.data?.message || "Login failed";
+      return rejectWithValue({ success: false, message });
+    }
   }
 );
 
@@ -82,15 +93,21 @@ export const deleteAccount = createAsyncThunk(
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+            "Cache-Control":
+              "no-store, no-cache, must-revalidate, proxy-revalidate",
           },
         }
       );
       return response.data;
     } catch (error) {
-      console.log("Error deleting user:", error.response?.data || error.message);
+      console.log(
+        "Error deleting user:",
+        error.response?.data || error.message
+      );
 
-      return rejectWithValue(error.response?.data || "Failed to delete the user.");
+      return rejectWithValue(
+        error.response?.data || "Failed to delete the user."
+      );
     }
   }
 );

@@ -1,21 +1,23 @@
 const { imageUploadUtil } = require("../../helper/cloudinary");
+const cloudinary = require("cloudinary").v2;
 const Product = require("../../models/Product");
 
 const handleImageUpload = async (req, res) => {
   try {
     if (!req.file) {
-      return res.json({ success: false, message: "No file uploaded" });
+      return res
+        .status(400)
+        .json({ success: false, message: "No file uploaded" });
     }
     const b64 = Buffer.from(req.file.buffer).toString("base64");
     const url = "data:" + req.file.mimetype + ";base64," + b64;
     const result = await imageUploadUtil(url, "tiha");
 
-    res.json({ success: true, result });
+    res.status(200).json({ success: true, result });
   } catch (error) {
-    console.error(error);
     res.status(500).json({
       success: false,
-      message: "Something went wrong",
+      message: "Failed to upload image",
       error: error.message,
     });
   }
@@ -27,10 +29,9 @@ const addProduct = async (req, res) => {
     await product.save();
     res.status(201).json({ success: true, data: product });
   } catch (error) {
-    console.error(error);
     res.status(500).json({
       success: false,
-      message: "Something went wrong",
+      message: "Failed to add product",
       error: error.message,
     });
   }
@@ -135,7 +136,7 @@ const updateProduct = async (req, res) => {
     console.error(error);
     res.status(500).json({
       success: false,
-      message: "Something went wrong",
+      message: "Product update failed",
       error: error.message,
     });
   }
@@ -143,14 +144,41 @@ const updateProduct = async (req, res) => {
 
 const deleteProduct = async (req, res) => {
   try {
-    const product = await Product.findByIdAndDelete(req.params.id);
+    const product = await Product.findById(req.params.id);
     if (!product) {
-      return res.json({ success: false, message: "Product not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Product not found" });
     }
 
-    res
-      .status(201)
-      .json({ success: true, message: "Product deleted successfully" });
+    const imageName = product.image
+      ? product.image
+          .split("/")
+          .slice(-2)
+          .join("/")
+          .replace(/\.[^/.]+$/, "")
+      : null;
+    if (imageName) {
+      cloudinary.uploader.destroy(imageName, async (error, result) => {
+        if (error) {
+          return res.status(500).json({
+            success: false,
+            message: "Failed to delete image",
+          });
+        }
+        await product.deleteOne();
+        res.status(200).json({
+          success: true,
+          message: "Product and associated image deleted successfully",
+        });
+      });
+    } else {
+      await product.deleteOne();
+      res.status(200).json({
+        success: true,
+        message: "Product deleted successfully (no image associated)",
+      });
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({

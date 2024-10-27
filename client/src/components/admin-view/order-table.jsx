@@ -99,7 +99,7 @@ const AdminOrderTable = ({
                   </Button>
                 </TableCell>
               )}
-              <TableCell className="flex justify-center gap-2">
+              <TableCell className="flex justify-center gap-2 sm:mt-0 mt-1">
                 <Eye size={20} className="text-blue-500" />
                 <Pencil
                   onClick={() => {
@@ -123,7 +123,7 @@ const AdminOrderTable = ({
         </TableBody>
         <TableFooter>
           <TableRow>
-            <TableCell className="py-4" colSpan={8}>
+            <TableCell className="py-2" colSpan={8}>
               Orders 1 - {orderList?.length > 10 ? "10" : orderList?.length} of{" "}
               {orderList?.length}
             </TableCell>

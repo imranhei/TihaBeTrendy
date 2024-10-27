@@ -5,6 +5,7 @@ import { Button } from "../ui/button";
 import { FileIcon, UploadCloudIcon, XIcon } from "lucide-react";
 import axios from "axios";
 import { Skeleton } from "../ui/skeleton";
+import { useToast } from "@/hooks/use-toast";
 
 const ProductImageUpload = ({
   imageFile,
@@ -17,6 +18,7 @@ const ProductImageUpload = ({
   isCustomStyling = true,
 }) => {
   const inputRef = useRef(null);
+  const { toast } = useToast();
 
   const handleImageFileChange = (e) => {
     const file = e.target.files?.[0];
@@ -39,27 +41,42 @@ const ProductImageUpload = ({
   };
 
   const uploadImageToCloudinary = async () => {
-    setImageLoadingState(true);
-    const token = JSON.parse(sessionStorage.getItem("token"));
-    const data = new FormData();
-    data.append("image", imageFile);
-    const response = await axios.post(
-      `${import.meta.env.VITE_API_URL}/api/admin/product/upload-image`,
-      data,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
-        },
+    try {
+      setImageLoadingState(true);
+      const token = JSON.parse(sessionStorage.getItem("token"));
+      const data = new FormData();
+      data.append("image", imageFile);
+  
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/admin/product/upload-image`,
+        data,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+  
+      if (response?.data?.success) {
+        setUploadedImageUrl(response?.data?.result?.secure_url);
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Image upload failed",
+          description: response?.data?.message || "",
+        });
+        console.log("Image upload failed");
       }
-    );
-
-    if (response.data?.success) {
-      setUploadedImageUrl(response.data.result.secure_url);
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Image upload failed",
+        description: error.message || "",
+      });
+      console.error("Error uploading image:", error.message);
+    } finally {
       setImageLoadingState(false);
-    } else {
-      setImageLoadingState(false);
-      console.log("Image upload failed");
     }
   };
 

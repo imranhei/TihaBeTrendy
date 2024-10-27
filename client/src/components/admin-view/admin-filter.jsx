@@ -48,7 +48,7 @@ const AdminFilters = ({
               <Checkbox
                 onCheckedChange={() => handleFilter(keyItem)}
                 checked={filters.includes(keyItem)}
-                className="scale-75"
+                className="scale-90"
               />
               <span>{keyItem}</span>
             </p>

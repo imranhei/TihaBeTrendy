@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import CommonForm from "../../components/common/form";
 import { registerFormControls } from "@/config";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "@/store/auth-slice";
 import { useToast } from "../../hooks/use-toast"
 
@@ -16,6 +16,7 @@ const AuthResgister = () => {
   const [formData, setFormData] = useState(initialState);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { isLoading } = useSelector((state) => state.auth);
   const {toast} = useToast();
 
   const onSubmit = (event) => {
@@ -62,16 +63,16 @@ const AuthResgister = () => {
     }
 
     dispatch(registerUser(formData)).then((data) => {
-      if(data?.payload?.success) {
+      if (data?.payload && data?.payload?.success) {
         toast({
-          title: data?.payload?.message || "Registration success",
+          title: data.payload.message || "Registration success",
         });
         navigate("/auth/login");
       } else {
-        console.log(data?.payload?.error);
         toast({
           variant: "destructive",
-          title: data?.payload?.message || "Registration failed",
+          description: data?.payload?.message || data?.error?.message || "",
+          title:  "Registration failed",
         });
       }
     });
@@ -96,9 +97,11 @@ const AuthResgister = () => {
       <CommonForm 
         formControls={registerFormControls}
         buttonText={'Sign Up'}
+        loadingText={"Signing Up..."}
         formData={formData}
         setFormData={setFormData}
         onSubmit={onSubmit}
+        isLoading={isLoading}
       />
     </div>
   );

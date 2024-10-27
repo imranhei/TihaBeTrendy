@@ -17,18 +17,13 @@ import {
 import { useToast } from "../../hooks/use-toast";
 import ProductImageUpload from "@/components/admin-view/image-upload";
 import AdminProductTile from "@/components/admin-view/product-tile";
-import {
-  ArrowUpDown,
-  CirclePlus,
-  LayoutGrid,
-  LayoutList,
-  Search,
-} from "lucide-react";
+import { CirclePlus, LayoutGrid, LayoutList } from "lucide-react";
 import AdminProductList from "@/components/admin-view/product-list";
 import ProductUpdateForm from "@/components/admin-view/product-update-form";
 import AdminFilters from "@/components/admin-view/admin-filter";
 import { useSearchParams } from "react-router-dom";
 import { Separator } from "@/components/ui/separator";
+import Modal from "@/components/common/modal";
 
 const initialFormData = {
   image: null,
@@ -50,12 +45,16 @@ const AdminProducts = () => {
   const [imageLoadingState, setImageLoadingState] = useState(false);
   const [currentEditedId, setCurrentEditedId] = useState(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [view, setView] = useState("card");
+  const [view, setView] = useState("list");
 
   const [filters, setFilters] = useState([]);
   const [sort, setSort] = useState(null);
   const [search, setSearch] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
   const dispatch = useDispatch();
   const { productList } = useSelector((state) => state.adminProducts);
   const { toast } = useToast();
@@ -89,11 +88,17 @@ const AdminProducts = () => {
       ? dispatch(updateProduct({ id: currentEditedId, formData })).then(
           (data) => {
             if (data?.payload?.success) {
-              dispatch(fetchAllProducts());
+              dispatch(fetchAllProducts({}));
               setFormData(initialFormData);
               setCurrentEditedId(null);
               toast({
                 title: "Product Updated Successfully",
+              });
+            } else {
+              toast({
+                variant: "destructive",
+                title: data?.payload?.message?.message || "Product Update Failed",
+              description: data?.payload?.message?.error || "",
               });
             }
           }
@@ -105,26 +110,38 @@ const AdminProducts = () => {
           })
         ).then((data) => {
           if (data?.payload?.success) {
-            dispatch(fetchAllProducts());
+            dispatch(fetchAllProducts({}));
             setImageFile(null);
             setFormData(initialFormData);
             setUploadedImageUrl("");
             toast({
               title: "Product Added Successfully",
             });
+          } else {
+            toast({
+              variant: "destructive",
+              title: data?.payload?.message?.message || "Product Addition Failed",
+              description: data?.payload?.message?.error || "",
+            });
           }
         });
   };
 
-  const handleDelete = (id) => {
-    dispatch(deleteProduct(id)).then((data) => {
-      if (data?.payload?.success) {
-        dispatch(fetchAllProducts());
-        toast({
-          title: "Product Deleted Successfully",
-        });
+  const handleDelete = async (id) => {
+    try {
+      const data = await dispatch(deleteProduct(id)).unwrap();
+      if (data.success) {
+        setIsDeleteModalOpen(false);
+        dispatch(fetchAllProducts({}));
+        toast({ title: "Product Deleted Successfully" });
       }
-    });
+    } catch (error) {
+      toast({
+        title: "Failed to delete product",
+        description: error.message,
+        variant: "destractive",
+      });
+    }
   };
 
   useEffect(() => {
@@ -147,24 +164,32 @@ const AdminProducts = () => {
   return (
     <div className="flex flex-col space-y-6 flex-1">
       <div className="flex justify-between sm:gap-4 gap-2">
-      <AdminFilters
-        handleFilter={handleFilter}
-        filters={filters}
-        handleSort={handleSort}
-        sort={sort}
-        handleSearch={handleSearch}
-      />
+        <AdminFilters
+          handleFilter={handleFilter}
+          filters={filters}
+          handleSort={handleSort}
+          sort={sort}
+          handleSearch={handleSearch}
+        />
         <div className="flex flex-col items-start sm:gap-2 gap-2">
           <Button
-            className={`p-3 sm:p-4 shadow-md w-full !border-1 border-violet-500 text-violet-600 hover:text-violet-600 ${view === "card" ? "bg-violet-500 text-white" : "bg-violet-50"}`}
+            className={`p-3 sm:p-4 shadow-md w-full !border-1 border-violet-500 ${
+              view === "card"
+                ? "bg-violet-600 hover:bg-violet-500 text-white hover:text-white"
+                : "bg-violet-50 text-violet-600 hover:text-violet-600"
+            }`}
             onClick={() => setView("card")}
             variant="outline"
           >
-            <LayoutGrid size={20}/>
+            <LayoutGrid size={20} />
             <p className="sm:ml-2 sm:block hidden">Card View</p>
           </Button>
           <Button
-            className={`p-3 sm:p-4 shadow-md w-full !border-1 border-violet-500 text-violet-600 hover:text-violet-600 ${view === "list" ? "bg-violet-500 text-white" : "bg-violet-50"}`}
+            className={`p-3 sm:p-4 shadow-md w-full !border-1 border-violet-500 ${
+              view === "list"
+                ? "bg-violet-600 hover:bg-violet-500 text-white hover:text-white"
+                : "bg-violet-50 text-violet-600 hover:text-violet-600"
+            }`}
             onClick={() => setView("list")}
             variant="outline"
           >
@@ -195,6 +220,7 @@ const AdminProducts = () => {
               setFormData={setFormData}
               handleDelete={handleDelete}
               setIsDialogOpen={setIsDialogOpen}
+              setIsModalOpen={setIsModalOpen}
             />
           ))
         ) : productList && productList.length > 0 && view === "list" ? (
@@ -204,6 +230,9 @@ const AdminProducts = () => {
             setFormData={setFormData}
             handleDelete={handleDelete}
             setIsDialogOpen={setIsDialogOpen}
+            setIsModalOpen={setIsModalOpen}
+            isDeleteModalOpen={isDeleteModalOpen}
+            setIsDeleteModalOpen={setIsDeleteModalOpen}
           />
         ) : (
           <div className="flex justify-center items-center w-full h-96">
@@ -211,6 +240,15 @@ const AdminProducts = () => {
           </div>
         )}
       </div>
+
+      <Modal
+        isOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        onOpenChange={() => {
+          setCurrentEditedId(null);
+        }}
+        currentId={currentEditedId}
+      />
 
       <Dialog
         open={isDialogOpen}

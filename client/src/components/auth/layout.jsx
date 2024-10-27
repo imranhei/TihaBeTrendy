@@ -10,7 +10,7 @@ const AuthLayout = () => {
       <div className="hidden lg:flex items-center justify-center bg-black w-1/2">
         <div className="max-w-lg space-y-6 text-center text-primary-foreground">
           <h1 className="text-4xl font-extrabold text-white tracking-tight">
-            Welcome to Tiha Be Trendy!
+            Welcome to TiHa-be trendy!
           </h1>
           <Separator className="border-b border-primary-foreground max-w-md mx-auto" />
           <h2 className="text-lg">Discover adorable beauty essentials for your little ones.</h2>

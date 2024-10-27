@@ -13,7 +13,7 @@ const Contact = () => {
           We'd Love to Hear from You!
         </p>
         <p className="pt-10 text-justify">
-          At Tiha Be Trendy, your satisfaction and convenience are our top
+          At TiHa-be trendy, your satisfaction and convenience are our top
           priorities. Whether you have a question about your order, need help
           selecting the perfect baby beauty accessory, or just want to share
           feedback, we're here for you.
@@ -42,7 +42,7 @@ const Contact = () => {
             <MapPin size={20} />
             <p className="font-semibold">Address</p>
           </div>
-          <p>Tiha-be trendy</p>
+          <p>TiHa-be trendy</p>
           <p>Dhaka Cantonment</p>
           <iframe
             className="w-full h-[450px] pt-4"
@@ -72,7 +72,7 @@ const Contact = () => {
             </svg>
           </div>
           </Linkto>
-          <p>We look forward to helping you and making your shopping experience at Tiha Be Trendy as smooth and joyful as possible!</p>
+          <p>We look forward to helping you and making your shopping experience at TiHa-be trendy as smooth and joyful as possible!</p>
         </div>
 
         <div className="flex gap-6 items-center justify-center">

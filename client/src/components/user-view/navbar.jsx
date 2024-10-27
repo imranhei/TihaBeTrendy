@@ -131,7 +131,7 @@ const Navbar = () => {
         <Link className="flex items-center gap-2" to="/shop/home">
           <img src="/tiha_icon.png" className="lg:w-16 sm:w-14 w-12" />
           {/* <span className="font-bold text-lg text-violet-800">
-            Tiha Be Trendy
+            TiHa-be trendy
           </span> */}
         </Link>
         <Sheet>

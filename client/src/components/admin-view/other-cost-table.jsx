@@ -51,7 +51,6 @@ const AdminOtherCostTable = ({
               <TableCell>{otherCost?.title}</TableCell>
               <TableCell className="text-nowrap">{otherCost?.date}</TableCell>
               <TableCell className="flex justify-center gap-2">
-                <Eye size={20} className="text-blue-500" />
                 <Pencil
                   onClick={() => {
                     setFormData(otherCost);
@@ -75,7 +74,7 @@ const AdminOtherCostTable = ({
         </TableBody>
         <TableFooter>
           <TableRow>
-            <TableCell className="py-4" colSpan={8}>
+            <TableCell className="py-2" colSpan={8}>
               Orders 1 - {otherCostList?.length > 10 ? "10" : otherCostList?.length} of{" "}
               {otherCostList?.length}
             </TableCell>

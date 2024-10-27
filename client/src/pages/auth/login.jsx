@@ -4,8 +4,7 @@ import CommonForm from "../../components/common/form";
 import { loginFormControls } from "@/config";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "@/store/auth-slice";
-import { useToast } from "../../hooks/use-toast"
-import { ArrowLeft } from "lucide-react";
+import { useToast } from "../../hooks/use-toast";
 
 const initialState = {
   email: "",
@@ -17,7 +16,7 @@ const AuthLogin = () => {
   const dispatch = useDispatch();
   const { isLoading } = useSelector((state) => state.auth);
   const navigate = useNavigate();
-  const {toast} = useToast();
+  const { toast } = useToast();
 
   const onSubmit = (event) => {
     event.preventDefault();
@@ -28,7 +27,7 @@ const AuthLogin = () => {
         variant: "destructive",
         title: "All fields are required",
       });
-      return
+      return;
     }
 
     //minimum password length check
@@ -41,15 +40,16 @@ const AuthLogin = () => {
     }
 
     dispatch(loginUser(formData)).then((data) => {
-      if (data?.payload?.success) {
+      if (data?.payload && data?.payload?.success) {
         navigate("/shop/home");
         toast({
-          title: data?.payload?.message || "Login successful",
+          title: data.payload.message || "Login successful",
         });
       } else {
         toast({
           variant: "destructive",
-          title: data?.payload?.message || "Login failed",
+          title: "Login failed",
+          description: data?.payload?.message || data?.error?.message || "",
         });
       }
     });

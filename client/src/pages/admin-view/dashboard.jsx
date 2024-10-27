@@ -26,37 +26,38 @@ const AdminDashboard = () => {
   }, [dispatch]);
 
   return (
-    <div className="flex sm:gap-6 gap-4 flex-wrap justify-center sm:justify-start">
+    <div className="flex sm:gap-6 gap-2 flex-wrap justify-center sm:justify-start">
       <QuickViewCard
         header="Total Products"
         text="Types (In Stock)"
-        icon={<ShoppingBasket className="text-violet-600 " size={48} />}
+        icon={<ShoppingBasket className="text-violet-600 sm:w-12 sm:h-12 w-10 h-10" />}
         value={dashboardData?.totalProducts}
       />
       <QuickViewCard
         header="Total Delivered"
         text="Quantity"
-        icon={<Truck className="text-violet-600 " size={48} />}
+        icon={<Truck className="text-violet-600 sm:w-12 sm:h-12 w-10 h-10" />}
         value={dashboardData?.totalDelivered}
       />
       <QuickViewCard
         header="Revenue"
-        icon={<BadgeDollarSign className="text-violet-600 " size={48} />}
+        text="Total sold"
+        icon={<BadgeDollarSign className="text-violet-600 sm:w-12 sm:h-12 w-10 h-10" />}
         value={dashboardData?.totalRevenue}
       />
       <QuickViewCard
         header="Earning"
-        icon={<HandCoins className="text-violet-600 " size={48} />}
+        icon={<HandCoins className="text-violet-600 sm:w-12 sm:h-12 w-10 h-10" />}
         value={dashboardData?.currentProfit}
       />
       <QuickViewCard
         header="Total Invest"
-        icon={<ChartSpline className="text-violet-600 " size={48} />}
+        icon={<ChartSpline className="text-violet-600 sm:w-12 sm:h-12 w-10 h-10" />}
         value={dashboardData?.totalInvest}
       />
       <QuickViewCard
         header="Total Profit"
-        icon={<ChartNoAxesCombined className="text-violet-600 " size={48} />}
+        icon={<ChartNoAxesCombined className="text-violet-600 sm:w-12 sm:h-12 w-10 h-10" />}
         value={dashboardData?.totalProfit}
       />
 

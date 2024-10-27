@@ -9,7 +9,7 @@ const registerUser = async (req, res) => {
     // Check if user already exists
     const user = await User.findOne({ email });
     if (user) {
-      return res.status(400).json({ error: "User already exists" });
+      return res.status(400).json({ message: "User already exists" });
     }
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 12);
@@ -31,7 +31,7 @@ const registerUser = async (req, res) => {
 // Super Admin user registration
 const registerSuperAdmin = async (req, res) => {
   try {
-    const { name, email, password, role } = req.body;
+    const { name, email, password } = req.body;
     // Check if user already exists
     const user = await User.findOne({ email });
     if (user) {
@@ -79,17 +79,17 @@ const isSuperAdmin = (req, res, next) => {
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    // Check if user exists
+
     const user = await User.findOne({ email });
     if (!user) {
-      return res.json({ success: false, message: "User not found" });
+      return res.status(404).json({ success: false, message: "User not found" });
     }
-    // Compare the password
+
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.json({ success: false, message: "Invalid credentials" });
+      return res.status(401).json({ success: false, message: "Invalid credentials" });
     }
-    // Create a token
+
     const token = jwt.sign(
       { id: user._id, role: user.role, email: user.email, name: user.name },
       process.env.JWT_SECRET,

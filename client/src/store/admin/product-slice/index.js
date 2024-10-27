@@ -51,36 +51,46 @@ export const fetchProductById = createAsyncThunk(
 export const addProduct = createAsyncThunk(
   "product/addProduct",
   async (formData) => {
-    const token = JSON.parse(sessionStorage.getItem("token"));
-    const response = await axios.post(
-      `${import.meta.env.VITE_API_URL}/api/admin/product/add-product`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    return response.data;
+    try {
+      const token = JSON.parse(sessionStorage.getItem("token"));
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/admin/product/add-product`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      return { success: false, message: error?.response?.data || error.message };
+    }
   }
 );
 
 export const updateProduct = createAsyncThunk(
   "product/updateProduct",
   async ({ id, formData }) => {
-    const token = JSON.parse(sessionStorage.getItem("token"));
-    const response = await axios.put(
-      `${import.meta.env.VITE_API_URL}/api/admin/product/update-product/${id}`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    return response.data;
+    try {
+      const token = JSON.parse(sessionStorage.getItem("token"));
+      const response = await axios.put(
+        `${
+          import.meta.env.VITE_API_URL
+        }/api/admin/product/update-product/${id}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      return { success: false, message: error?.response?.data || error.message };
+    }
   }
 );
 
