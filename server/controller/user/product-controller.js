@@ -33,7 +33,11 @@ const getAllProducts = async (req, res) => {
   .select("image productId title category price stock")
   .sort(sort);
 
-    res.status(201).json({ success: true, data: products });
+  if (products.length === 0) {
+    return res.status(404).json({ success: false, message: "No products found" });
+  }
+
+    res.status(200).json({ success: true, data: products });
   } catch (error) {
     console.error(error);
     res.status(500).json({
@@ -49,9 +53,15 @@ const getProductById = async (req, res) => {
     const product = await Product.findById(req.params.id).select(
       "image productId title category price stock"
     );
-    res.status(201).json({ success: true, data: product });
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        message: "Product not found",
+      });
+    }
+
+    res.status(200).json({ success: true, data: product });
   } catch (error) {
-    console.error(error);
     res.status(500).json({
       success: false,
       message: "Something went wrong",

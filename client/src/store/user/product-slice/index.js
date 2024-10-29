@@ -8,27 +8,38 @@ const initialState = {
 
 export const fetchAllProducts = createAsyncThunk(
   "product/fetchAllProducts",
-  async ({ filterParams, sortParams }) => {
+  async ({ filterParams, sortParams }, { rejectWithValue }) => {
     
-    const query = new URLSearchParams({
-      category: filterParams.join(","),
-      sortBy: sortParams,
-    });
-
-    const response = await axios.get(
-      `${import.meta.env.VITE_API_URL}/api/user/product/get-all-products?${query}`
-    );
-    return response.data;
+    try {
+      const query = new URLSearchParams({
+        category: filterParams.join(","),
+        sortBy: sortParams,
+      });
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/user/product/get-all-products?${query}`
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data || { message: "Failed to fetch products." }
+      );
+    }
   }
 );
 
 export const fetchProductById = createAsyncThunk(
   "product/fetchProductById",
-  async (id) => {
-    const response = await axios.get(
-      `${import.meta.env.VITE_API_URL}/api/user/product/get-product-by-id/${id}`
-    );
-    return response.data;
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/user/product/get-product-by-id/${id}`
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data || { message: "Failed to fetch product details." }
+      );
+    }
   }
 );
 

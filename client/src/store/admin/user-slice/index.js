@@ -8,17 +8,23 @@ const initialState = {
 
 export const fetchAllUsers = createAsyncThunk(
   "user/fetchAllUsers",
-  async () => {
-    const token = JSON.parse(sessionStorage.getItem("token"));
-    const response = await axios.get(
-      `${import.meta.env.VITE_API_URL}/api/admin/user/get-all-users`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    return response.data;
+  async (_, { rejectWithValue }) => {
+    try {
+      const token = JSON.parse(sessionStorage.getItem("token"));
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/admin/user/get-all-users`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data || { message: "Failed to fetch users." }
+      );
+    }
   }
 );
 
@@ -40,34 +46,48 @@ export const fetchUserById = createAsyncThunk(
 
 export const updateUser = createAsyncThunk(
   "user/updateUser",
-  async ({ id, role }) => {
-    const token = JSON.parse(sessionStorage.getItem("token"));
-    const response = await axios.put(
-      `${import.meta.env.VITE_API_URL}/api/admin/user/update-user/${id}`,
-      { role },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    return response.data;
+  async ({ id, role }, { rejectWithValue }) => {
+    try {
+      const token = JSON.parse(sessionStorage.getItem("token"));
+      const response = await axios.put(
+        `${import.meta.env.VITE_API_URL}/api/admin/user/update-user/${id}`,
+        { role },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
   }
 );
 
-export const deleteUser = createAsyncThunk("user/deleteUser", async (id) => {
-  const token = JSON.parse(sessionStorage.getItem("token"));
-  const response = await axios.delete(
-    `${import.meta.env.VITE_API_URL}/api/admin/user/delete-user/${id}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+export const deleteUser = createAsyncThunk(
+  "user/deleteUser",
+  async (id, { rejectWithValue }) => {
+    try {
+      const token = JSON.parse(sessionStorage.getItem("token"));
+      const response = await axios.delete(
+        `${import.meta.env.VITE_API_URL}/api/admin/user/delete-user/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue(
+        error.response?.data || { message: "Failed to delete user." }
+      );
     }
-  );
-  return response.data;
-});
+  }
+);
 
 export const userHandleSlice = createSlice({
   name: "userHandle",

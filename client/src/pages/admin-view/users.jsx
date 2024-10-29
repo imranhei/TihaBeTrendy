@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  fetchAllUsers,
-  updateUser,
-} from "@/store/admin/user-slice";
+import { fetchAllUsers, updateUser } from "@/store/admin/user-slice";
 import { deleteAccount } from "@/store/auth-slice";
 import {
   Table,
@@ -76,34 +73,52 @@ const Users = () => {
   const handleDelete = (id) => {
     const token = JSON.parse(sessionStorage.getItem("token"));
 
-    dispatch(deleteAccount({ id, token })).then((data) => {
-      if (data?.payload?.success) {
-        dispatch(fetchAllUsers());
-        setIsModalOpen(false);
-        setDeleteId(null);
+    dispatch(deleteAccount({ id, token }))
+      .then((data) => {
+        if (data?.payload?.success) {
+          dispatch(fetchAllUsers());
+          setIsModalOpen(false);
+          setDeleteId(null);
+          toast({
+            title: "Deleted Account",
+            description: data?.payload?.message || "",
+          });
+        } else {
+          toast({
+            title: "Request Failed",
+            description:
+              data?.payload ||
+              data?.error?.message ||
+              "Failed to Delete User",
+            variant: "destructive",
+          });
+        }
+      })
+      .catch((error) => {
         toast({
-          title: "Deleted Account",
-          description: data?.payload?.message || "",
+          title: "Request Error",
+          description: error.message || "An unexpected error occurred.",
+          variant: "destructive",
         });
-      } else {
-        toast({
-          title: "Request Failed",
-          description: data?.payload?.message || data?.error?.message || "Failed to Delete User",
-          type: "destructive",
-        });
-      }
-    })
+      });
   };
 
   const handleUpdateRole = (id, role) => {
     dispatch(updateUser({ id, role })).then((data) => {
-      if (data?.payload?.success) {
+      if (data.meta.requestStatus === "fulfilled" && data.payload.success) {
         dispatch(fetchAllUsers());
         setEditedUsers((prevEdits) =>
           prevEdits.filter((edit) => edit.id !== id)
         );
+        toast({ title: "User Role Updated Successfully" });
+      } else {
+        const errorMsg =
+          data.payload?.message ||
+          "Failed to update user role due to insufficient permissions.";
         toast({
-          title: "User Role Updated Successfully",
+          title: "Request Failed",
+          description: errorMsg,
+          variant: "destructive",
         });
       }
     });
@@ -122,7 +137,13 @@ const Users = () => {
         <TableHeader>
           <TableRow className="p-0 text-nowrap bg-muted">
             <TableHead>Serial</TableHead>
-            <TableHead className="flex gap-2 items-center justify-between"><span>Name</span> <ArrowDownUp className="text-gray-300 hover:text-muted-foreground cursor-pointer" size={16} /></TableHead>
+            <TableHead className="flex gap-2 items-center justify-between">
+              <span>Name</span>{" "}
+              <ArrowDownUp
+                className="text-gray-300 hover:text-muted-foreground cursor-pointer"
+                size={16}
+              />
+            </TableHead>
             <TableHead>Email</TableHead>
             <TableHead>Role</TableHead>
             <TableHead>Last Login</TableHead>

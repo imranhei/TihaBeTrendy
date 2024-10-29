@@ -100,13 +100,8 @@ export const deleteAccount = createAsyncThunk(
       );
       return response.data;
     } catch (error) {
-      console.log(
-        "Error deleting user:",
-        error.response?.data || error.message
-      );
-
       return rejectWithValue(
-        error.response?.data || "Failed to delete the user."
+        error.response?.data?.error || "Failed to delete the user."
       );
     }
   }

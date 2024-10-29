@@ -111,8 +111,9 @@ const updateProduct = async (req, res) => {
       title,
       category,
       price,
+      unitPurchaseCost,
+      totalPurchaseCost,
       stock,
-      purchasePrice,
       date,
     } = req.body;
     const product = await Product.findById(req.params.id);
@@ -125,8 +126,9 @@ const updateProduct = async (req, res) => {
     product.title = title || product.title;
     product.category = category || product.category;
     product.price = price || product.price;
+    product.unitPurchaseCost = unitPurchaseCost || product.unitPurchaseCost;
+    product.totalPurchaseCost = totalPurchaseCost || product.totalPurchaseCost;
     product.stock = stock || product.stock;
-    product.purchasePrice = purchasePrice || product.purchasePrice;
     product.date = date || product.date;
 
     await product.save();

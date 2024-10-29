@@ -52,7 +52,15 @@ const Home = () => {
 
   useEffect(() => {
     if (filters !== null && sort !== null) {
-      dispatch(fetchAllProducts({ filterParams: filters, sortParams: sort }));
+      dispatch(fetchAllProducts({ filterParams: filters, sortParams: sort }))
+      .unwrap()
+      .catch((error) => {
+        toast({
+          title: "Error fetching products",
+          description: error.message || "Unable to fetch product list.",
+          variant: "destructive",
+        });
+      });
     }
   }, [dispatch, sort, filters]);
 
